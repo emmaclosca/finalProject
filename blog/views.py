@@ -9,9 +9,6 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, 'index.html', {})
 
-def about(request):
-    return render(request, 'about.html', {})
-
 def signUp(request):
     if request.method=='POST':
         name=request.POST.get('name')
@@ -27,8 +24,6 @@ def signUp(request):
             my_user.save()
             print(name, username, email, password)
             return redirect('login')
-        
-      
         
     return render(request, 'signUp.html', {})
 
