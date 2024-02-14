@@ -36,3 +36,11 @@ class Content(models.Model):
     image_url = models.CharField(max_length=2000)
     video_url = models.CharField(max_length=2000)
     
+class Population(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    country = models.CharField(max_length=50)
+    population_2023 = models.IntegerField()
+    population_2022 = models.IntegerField()
+    population_2020 = models.IntegerField()
+    population_2015 = models.IntegerField()
+    population_2000 = models.IntegerField()

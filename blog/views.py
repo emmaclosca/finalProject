@@ -1,3 +1,5 @@
+import base64
+from io import BytesIO
 import requests
 from http.client import REQUEST_ENTITY_TOO_LARGE, REQUEST_HEADER_FIELDS_TOO_LARGE, REQUEST_TIMEOUT
 from django.http import HttpResponse, JsonResponse
@@ -6,6 +8,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+import matplotlib.pyplot as plt
+
+from . import models
 
 @login_required(login_url='login')
 
@@ -44,23 +49,35 @@ def logIn(request):
         
     return render(request, 'logIn.html', {})
 
-# def forum(request):
-#     return render(request, 'forum.html', {})
+def forum(request):
+    return render(request, 'forum.html', {})
 
-# def news(request):
-#     return render(request, 'news.html', {})
+def news(request):
+    data = {'2023': 144444359, '2022': 144713314, '2020': 145617329, '2015': 144668389, '2010': 143242599, '2000': 146844839}
+    names = list(data.keys())[::-1]
+    values = list(data.values())[::-1]
 
-# def profile(request):
-#     return render(request, 'profile.html', {})
+    plt.plot(names, values, linestyle = 'dotted')
+        
+    buf = BytesIO()
+    plt.savefig(buf, format='png', dpi=300)
+    image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8').replace('\n', '')
+    buf.close()
+    
+    all_entries = models.Content.objects.filter(country = "Sri Lanka")
+    return render(request, 'news.html', {"image_base64": image_base64, "content": all_entries})
 
-# def settings(request):
-#     return render(request, 'settings.html', {})
+def profile(request):
+    return render(request, 'profile.html', {})
+
+def settings(request):
+    return render(request, 'settings.html', {})
 
 def logOut(request):
     logout(request)
     return redirect('signUp')
 
-# def index(request):
+# def news(request):
 #     api_url = 'https://api.api-ninjas.com/v1/country?name=Russia'
 #     headers = {'X-Api-Key': 'ZLPOykr1PiSkaMTpZxUYPg==1qes8BJwWRpO0GQl'}
 
@@ -69,7 +86,7 @@ def logOut(request):
 #     if response.status_code == requests.codes.ok:
 #         data = response.json()
 #         population = data[0]['population']
-#         return render(request, 'index.html', {'population': population})
+#         return render(request, 'news.html', {'population': population})
 #     else:
 #         return JsonResponse({'error': 'Failed to fetch data'}, status=500)
 

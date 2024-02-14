@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>News</h1>
+
+<p>Population of Russia {{ chart }}</p> 
+
+<img src="data:image/png;base64,{{image_base64}}" alt="some text to display to your users when the image does not show correctly" width=500 height=auto />
+<h2>{{ content.0.title }}</h2>
+<p>{{ content.0.author }}</p>
+
+{% endblock %}
