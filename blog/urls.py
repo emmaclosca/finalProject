@@ -8,4 +8,7 @@ urlpatterns = [
     path('forum/', views.forum, name= 'forum'),
     path('profile/', views.profile, name= 'profile'),
     path('settings/', views.settings, name= 'settings'),
+    path('russia/', views.russia, name= 'russia'),
+    path('gaza/', views.gaza, name= 'gaza'),
+    path('zimbabwe/', views.zimbabwe, name= 'zimbabwe'),
 ]

@@ -1,12 +1,68 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h1>News</h1>
 
-<p>Population of Russia {{ chart }}</p> 
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
 
-<img src="data:image/png;base64,{{image_base64}}" alt="some text to display to your users when the image does not show correctly" width=500 height=auto />
-<h2>{{ content.0.title }}</h2>
-<p>{{ content.0.author }}</p>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+    <style> #map {
+         height: 550px; 
+        }
+    </style>
+    </head>
+
+    <body>    
+        <div id="map"></div>
+
+        <script>     
+            // creating the map and tiles using leaflet.js
+            const map = L.map('map', {
+                center: [45, 10], 
+                zoom: 2, 
+                minZoom: 2, 
+            });
+        
+            const attribution =
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+            
+            const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            const tiles = L.tileLayer(tileURL, {attribution});
+            tiles.addTo(map);
+        
+            const markerPositions = [
+                { name: 'Russia', latlng: [61.5240, 105.3188], url: '{% url "russia" %}' },
+                { name: 'Zimbabwe', latlng: [19.0154, 29.1549], url: '{% url "zimbabwe" %}' },
+                { name: 'Gaza', latlng: [31.5017, 34.4668], url: '{% url "gaza" %}' }
+            ];
+        
+            // function of markers
+            markerPositions.forEach(marker => {
+                const markerElement = L.marker(marker.latlng)
+                    .addTo(map)
+                    .bindPopup(`<a href="${marker.url}" style="text-decoration: none; cursor: pointer;">${marker.name}</a>`); 
+        
+                markerElement.on('mouseover', function (e) {
+                    this.openPopup();
+                });
+        
+                markerElement.on('mouseout', function (e) {
+                    this.closePopup();
+                });
+        
+                // redirects you to the country you selected
+                markerElement.on('click', function (e) {
+                    window.location.href = marker.url;
+                });
+            });
+        </script>
+        
+    </body>
+</html>
 
 {% endblock %}

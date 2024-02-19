@@ -52,7 +52,7 @@ def logIn(request):
 def forum(request):
     return render(request, 'forum.html', {})
 
-def news(request):
+def russia(request):
     data = {'2023': 144444359, '2022': 144713314, '2020': 145617329, '2015': 144668389, '2010': 143242599, '2000': 146844839}
     names = list(data.keys())[::-1]
     values = list(data.values())[::-1]
@@ -65,7 +65,16 @@ def news(request):
     buf.close()
     
     all_entries = models.Content.objects.filter(country = "Sri Lanka")
-    return render(request, 'news.html', {"image_base64": image_base64, "content": all_entries})
+    return render(request, 'russia.html', {"image_base64": image_base64, "content": all_entries})
+
+def gaza(request):
+    return render(request, 'gaza.html', {})
+
+def zimbabwe(request):
+    return render(request, 'zimbabwe.html', {})
+
+def news(request):
+    return render(request, 'news.html', {}) 
 
 def profile(request):
     return render(request, 'profile.html', {})

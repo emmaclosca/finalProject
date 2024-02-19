@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+    <head>
+
+    </head>
+    <body>
+        <p>Population of Russia</p> 
+        <!-- Display the chart -->
+        <img src="data:image/png;base64,{{ image_base64 }}" alt="Population Chart" width=500 height=auto />
+        
+        <!-- Display news content -->
+        <h2>{{ content.0.title }}</h2>
+        <p>{{ content.0.author }}</p>
+    </body>
+</html>
+{% endblock %}
