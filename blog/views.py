@@ -57,21 +57,48 @@ def russia(request):
     names = list(data.keys())[::-1]
     values = list(data.values())[::-1]
 
-    plt.plot(names, values, linestyle = 'dotted')
-        
+    plt.figure()
+    plt.plot(names, values, linestyle='dotted')
+
     buf = BytesIO()
     plt.savefig(buf, format='png', dpi=300)
     image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8').replace('\n', '')
     buf.close()
-    
-    all_entries = models.Content.objects.filter(country = "Sri Lanka")
+
+    all_entries = models.Content.objects.filter(country="Russia")
     return render(request, 'russia.html', {"image_base64": image_base64, "content": all_entries})
 
-def gaza(request):
-    return render(request, 'gaza.html', {})
+def palestine(request):
+    data = {'2023': 5371230, '2022': 5250072, '2020': 5019401, '2015': 4484614, '2010': 3992278, '2000': 3139954}
+    names = list(data.keys())[::-1]
+    values = list(data.values())[::-1]
+
+    plt.figure()
+    plt.plot(names, values, linestyle='dotted')
+
+    buf = BytesIO()
+    plt.savefig(buf, format='png', dpi=300)
+    image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8').replace('\n', '')
+    buf.close()
+
+    all_entries = models.Content.objects.filter(country="Sri Lanka")
+    return render(request, 'palestine.html', {"image_base64": image_base64, "content": all_entries})
 
 def zimbabwe(request):
-    return render(request, 'zimbabwe.html', {})
+    data = {'2023': 16665409, '2022': 16320537, '2020': 15669666, '2015': 14154937, '2010': 12839771, '2000': 11834676}
+    names = list(data.keys())[::-1]
+    values = list(data.values())[::-1]
+
+    plt.figure()
+    plt.plot(names, values, linestyle='dotted')
+
+    buf = BytesIO()
+    plt.savefig(buf, format='png', dpi=300)
+    image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8').replace('\n', '')
+    buf.close()
+
+    all_entries = models.Content.objects.filter(country="Zimbabwe")
+    return render(request, 'zimbabwe.html', {"image_base64": image_base64, "content": all_entries})
 
 def news(request):
     return render(request, 'news.html', {}) 
