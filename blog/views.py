@@ -9,14 +9,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 import matplotlib.pyplot as plt
+from django.contrib import messages
+from .decorators import unauthenticated_user
 
 from . import models
 
 @login_required(login_url='login')
-
 def index(request):
-    return render(request, 'index.html', {})
+    username = request.user.username  # this takes the logged in username and used for the "Hello, username" in the navbar
+    return render(request, 'index.html', {'username': username})
 
+@unauthenticated_user
 def signUp(request):
     if request.method=='POST':
         name=request.POST.get('name')
@@ -28,24 +31,24 @@ def signUp(request):
         if password!=passwordConfirm:
             return HttpResponse('Your passwords do not match, try again.')
         else:
-            my_user=User.objects.create_user(username, email, password)
+            my_user=User.objects.create_user(name, username, email, password)
             my_user.save()
-            print(name, username, email, password)
+            messages.success(request, 'Your account was created successfully, ' +username)
             return redirect('login')
         
     return render(request, 'signUp.html', {})
 
+@unauthenticated_user
 def logIn(request):
     if request.method=='POST':
         username=request.POST.get('username')
         password=request.POST.get('password')
-        print( username, password)
         user=authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('index')
         else:
-            return HttpResponse('Username or password is incorrect.')
+            messages.info(request, 'Username or password is incorrect.')
         
     return render(request, 'logIn.html', {})
 
@@ -111,7 +114,7 @@ def settings(request):
 
 def logOut(request):
     logout(request)
-    return redirect('signUp')
+    return redirect('logIn')
 
 # def news(request):
 #     api_url = 'https://api.api-ninjas.com/v1/country?name=Russia'

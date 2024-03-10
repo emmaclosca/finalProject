@@ -1,4 +1,15 @@
 <body>
+
+    {% if messages %}
+        <div class="messages">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+                {{ message }}
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+
     <form method="post">
         <h3>Login Here</h3>
         {% csrf_token %} 
@@ -13,4 +24,5 @@
         <button type="submit">Login</button> 
     </form>
     <a href="{% url 'signUp' %}" >Don't have an account?</a>
+
 </body>
