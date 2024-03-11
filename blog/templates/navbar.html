@@ -1,36 +1,37 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary ">
-    <div class="container-fluid">
-      <a class="navbar-brand">Eyes on the Unseen</a>
-     
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+  <div class="container-fluid">
+     <a class="navbar-brand">Eyes on the Unseen</a>
+     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'news' %}">News</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'forum' %}">Forum</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+           </li>
+           <li class="nav-item">
+              <a class="nav-link" href="{% url 'news' %}">News</a>
+           </li>
+           <li class="nav-item">
+              <a class="nav-link" href="{% url 'forum' %}">Forum</a>
+           </li>
+           <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Account
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-            </ul>
-          </li>
+              </a>
+              <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                 <li>
+                    <hr class="dropdown-divider">
+                 </li>
+                 <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
+                 <li>
+                    <hr class="dropdown-divider">
+                 </li>
+                 <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+              </ul>
+           </li>
         </ul>
-      </div>
-    </div>
-
-    {% if username %}
-      <span>Hello, {{ username }}</span>
-    {% endif %}
-    
-  </nav>
+     </div>
+  </div>
+  {% if username %}
+  <span>Hello, {{ username }}</span>
+  {% endif %}
+</nav>

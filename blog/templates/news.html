@@ -1,117 +1,110 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <html>
-    <head>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin=""/>
-
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin=""></script>
-
-    <style> #map {
+   <head>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+         crossorigin=""/>
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+         crossorigin=""></script>
+      <style> #map {
          height: 550px; 
-        }
-    </style>
-    </head>
-
-    <body>    
-        <div id="map"></div>
-
-        <script>     
-            // creating the map and tiles using leaflet.js
-            const map = L.map('map', {
-                center: [45, 10], 
-                zoom: 2, 
-                minZoom: 2,
-                maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180))
-            });
-             
-            // this is the object which handles the behaviour of the dragging
-            const draggable = map.dragging._draggable;
-
-            // this is an event handler which is triggered when the user clicks on the mouse button to drag
-            // it checks to see if dragging is enabled 
-            // if enabled the cursor changes into a grabbing symbol and allows for the map to be moved to a certain point
-            draggable._onMouseDown = function (e) {
-                if (!this._map.options.dragging) return;
-
-                this._map._mapPane.style.cursor = 'grabbing';
-                this._startPoint = this._map.mouseEventToContainerPoint(e);
-                L.DomEvent.on(document, 'mousemove', this._onMouseMove, this);
-                L.DomEvent.on(document, 'mouseup', this._onMouseUp, this);
-                L.DomEvent.preventDefault(e.originalEvent);
-                L.DomUtil.disableTextSelection();
-                this._map._stop();
-            };
-            
-            // this function checks the maxBounds for the dragging to perform correctly
-            draggable._onMouseMove = function (e) {
-                if (!this._map.options.dragging) return;
-
-                this._newPos = this._map.mouseEventToContainerPoint(e);
-                this._offset = this._newPos.subtract(this._startPoint);
-                const offset = this._map._getTopLeftPoint().add(this._offset);
-                const maxBounds = this._map.options.maxBounds;
-
-                // Check if dragging exceeds the bounds
-                if (maxBounds) {
-                    const newBounds = L.latLngBounds(maxBounds.getSouthWest().subtract(offset), maxBounds.getNorthEast().subtract(offset));
-                    if (!maxBounds.contains(newBounds)) return;
-                }
-
-                this._map._rawPanBy(this._offset);
-                this._startPoint = this._newPos;
-            };
-
-             // this function indicates the end of dragging
-            draggable._onMouseUp = function () {
-                this._map._mapPane.style.cursor = 'grab';
-                L.DomUtil.enableTextSelection();
-                L.DomEvent.off(document, 'mousemove', this._onMouseMove);
-                L.DomEvent.off(document, 'mouseup', this._onMouseUp);
-                this._map.fire('dragend');
-            };
-
-            map.dragging.enable(); // Enable dragging
-
-            const attribution =
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-            
-            const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-            const tiles = L.tileLayer(tileURL, {attribution});
-            tiles.addTo(map);
-        
-            const markerPositions = [
-                { name: 'Russia', latlng: [61.5240, 105.3188], url: '{% url "russia" %}' },
-                { name: 'Zimbabwe', latlng: [19.0154, 29.1549], url: '{% url "zimbabwe" %}' },
-                { name: 'Palestine', latlng: [31.5017, 34.4668], url: '{% url "palestine" %}' }
-            ];
-        
-            // function of markers
-            markerPositions.forEach(marker => {
-                const markerElement = L.marker(marker.latlng)
-                    .addTo(map)
-                    .bindPopup(`<a href="${marker.url}" style="text-decoration: none; cursor: pointer;">${marker.name}</a>`); 
-        
-                markerElement.on('mouseover', function (e) {
-                    this.openPopup();
-                });
-        
-                markerElement.on('mouseout', function (e) {
-                    this.closePopup();
-                });
-        
-                // redirects you to the country you selected
-                markerElement.on('click', function (e) {
-                    window.location.href = marker.url;
-                });
-            });
-        </script>
-        
-    </body>
+         }
+      </style>
+   </head>
+   <body>
+      <div id="map"></div>
+      <script>     
+         // creating the map and tiles using leaflet.js
+         const map = L.map('map', {
+             center: [45, 10], 
+             zoom: 2, 
+             minZoom: 2,
+             maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180))
+         });
+          
+         // this is the object which handles the behaviour of the dragging
+         const draggable = map.dragging._draggable;
+         
+         // this is an event handler which is triggered when the user clicks on the mouse button to drag
+         // it checks to see if dragging is enabled 
+         // if enabled the cursor changes into a grabbing symbol and allows for the map to be moved to a certain point
+         draggable._onMouseDown = function (e) {
+             if (!this._map.options.dragging) return;
+         
+             this._map._mapPane.style.cursor = 'grabbing';
+             this._startPoint = this._map.mouseEventToContainerPoint(e);
+             L.DomEvent.on(document, 'mousemove', this._onMouseMove, this);
+             L.DomEvent.on(document, 'mouseup', this._onMouseUp, this);
+             L.DomEvent.preventDefault(e.originalEvent);
+             L.DomUtil.disableTextSelection();
+             this._map._stop();
+         };
+         
+         // this function checks the maxBounds for the dragging to perform correctly
+         draggable._onMouseMove = function (e) {
+             if (!this._map.options.dragging) return;
+         
+             this._newPos = this._map.mouseEventToContainerPoint(e);
+             this._offset = this._newPos.subtract(this._startPoint);
+             const offset = this._map._getTopLeftPoint().add(this._offset);
+             const maxBounds = this._map.options.maxBounds;
+         
+             // Check if dragging exceeds the bounds
+             if (maxBounds) {
+                 const newBounds = L.latLngBounds(maxBounds.getSouthWest().subtract(offset), maxBounds.getNorthEast().subtract(offset));
+                 if (!maxBounds.contains(newBounds)) return;
+             }
+         
+             this._map._rawPanBy(this._offset);
+             this._startPoint = this._newPos;
+         };
+         
+          // this function indicates the end of dragging
+         draggable._onMouseUp = function () {
+             this._map._mapPane.style.cursor = 'grab';
+             L.DomUtil.enableTextSelection();
+             L.DomEvent.off(document, 'mousemove', this._onMouseMove);
+             L.DomEvent.off(document, 'mouseup', this._onMouseUp);
+             this._map.fire('dragend');
+         };
+         
+         map.dragging.enable(); // Enable dragging
+         
+         const attribution =
+             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+         
+         const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+         const tiles = L.tileLayer(tileURL, {attribution});
+         tiles.addTo(map);
+         
+         const markerPositions = [
+             { name: 'Russia', latlng: [61.5240, 105.3188], url: '{% url "russia" %}' },
+             { name: 'Zimbabwe', latlng: [19.0154, 29.1549], url: '{% url "zimbabwe" %}' },
+             { name: 'Palestine', latlng: [31.5017, 34.4668], url: '{% url "palestine" %}' }
+         ];
+         
+         // function of markers
+         markerPositions.forEach(marker => {
+             const markerElement = L.marker(marker.latlng)
+                 .addTo(map)
+                 .bindPopup(`<a href="${marker.url}" style="text-decoration: none; cursor: pointer;">${marker.name}</a>`); 
+         
+             markerElement.on('mouseover', function (e) {
+                 this.openPopup();
+             });
+         
+             markerElement.on('mouseout', function (e) {
+                 this.closePopup();
+             });
+         
+             // redirects you to the country you selected
+             markerElement.on('click', function (e) {
+                 window.location.href = marker.url;
+             });
+         });
+      </script>
+   </body>
 </html>
-
 {% endblock %}

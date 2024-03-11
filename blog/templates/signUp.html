@@ -1,30 +1,30 @@
-
 <body>
     <form method="post">
-        <h3>Sign Up Here</h3>
-        {% csrf_token %} 
-        <div class="mb-3">
-            <input type="text" placeholder="Name" name="name" id="name">
-        </div>
-        <br>
-        <div class="mb-3">
-            <input type="text" placeholder="Username" name="username" id="username">
-        </div>
-        <br>
-        <div class="mb-3">
-            <input type="email" placeholder="Email" name="email" id="email">
-        </div>
-        <br>
-        <div class="mb-3">
-            <input type="password" placeholder="Password" id="password" name="password">
-        </div>
-        <br>
-        <div class="mb-3">
-            <input type="password" placeholder="Confirm Password" id="passwordConfirm" name="passwordConfirm">
-        </div>
-        <br>
-         <button type="submit">Sign Up</button>
+       <h3>Sign Up Here</h3>
+       {% csrf_token %} 
+       <div class="mb-3">
+          <input type="text" placeholder="Name" name="name" id="name">
+       </div>
+       <br>
+       <div class="mb-3">
+          <input type="text" placeholder="Username" name="username" id="username">
+       </div>
+       <br>
+       <div class="mb-3">
+          <input type="email" placeholder="Email" name="email" id="email">
+       </div>
+       <br>
+       <div class="mb-3">
+          <input type="password" placeholder="Password" id="password" name="password">
+       </div>
+       <br>
+       <div class="mb-3">
+          <input type="password" placeholder="Confirm Password" id="passwordConfirm" name="passwordConfirm">
+       </div>
+       <br>
+       <button type="submit">Sign Up</button>
     </form>
     <a href="{% url 'login' %}" >Already have an account?</a>
-
-</body>
+    <br>
+    <a href="{% url 'guest' %}">Continue as a guest</a>
+ </body>
