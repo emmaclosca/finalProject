@@ -1,7 +1,7 @@
 import base64
 from io import BytesIO
 import matplotlib
-import requests
+# import requests
 from http.client import (
     REQUEST_ENTITY_TOO_LARGE,
     REQUEST_HEADER_FIELDS_TOO_LARGE,
@@ -12,7 +12,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
 import matplotlib.pyplot as plt
 from django.contrib import messages
 from .decorators import unauthenticated_user, allowed_users
@@ -22,14 +21,17 @@ from . import models
 matplotlib.use("agg")
 
 
-@login_required(login_url="login")
 def index(request):
-    username = (
+    if request.user.is_authenticated:
+        username = (
         request.user.username
     )  # this takes the logged in username and used for the "Hello, username" in the navbar
-    return render(request, "index.html", {"username": username})
-
-
+        # print(request.user.groups)
+        return render(request, "index.html", {"username": username},)
+    else:
+        return redirect('signUp')
+     
+     
 # this @unauthenticated_user is being called from the decorators
 @unauthenticated_user
 def signUp(request):
@@ -69,7 +71,10 @@ def logIn(request):
 
 
 def guest(request):
-    return render(request, "index.html", {})
+    user = authenticate(request,username='guest',password='passwordabc')
+    login(request, user)
+
+    return redirect('index')
 
 
 def forum(request):
