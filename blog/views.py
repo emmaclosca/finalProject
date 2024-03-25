@@ -1,6 +1,8 @@
 import base64
 from io import BytesIO
+from django.urls import reverse_lazy
 import matplotlib
+
 # import requests
 from http.client import (
     REQUEST_ENTITY_TOO_LARGE,
@@ -8,13 +10,23 @@ from http.client import (
     REQUEST_TIMEOUT,
 )
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import matplotlib.pyplot as plt
 from django.contrib import messages
 from .decorators import unauthenticated_user, allowed_users
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
+from .models import Member, Post
+from django.utils import timezone
+from .forms import PostForm, UpdateForm
 
 from . import models
 
@@ -24,14 +36,54 @@ matplotlib.use("agg")
 def index(request):
     if request.user.is_authenticated:
         username = (
-        request.user.username
-    )  # this takes the logged in username and used for the "Hello, username" in the navbar
+            request.user.username
+        )  # this takes the logged in username and used for the "Hello, username" in the navbar
         # print(request.user.groups)
-        return render(request, "index.html", {"username": username},)
+        return render(
+            request,
+            "index.html",
+            {"username": username},
+        )
     else:
-        return redirect('signUp')
-     
-     
+        return redirect("signUp")
+
+
+class IndexView(ListView):
+    model = Post
+    template_name = "index.html"
+    context_object_name = "blog_post"
+    ordering = ["-id"]
+
+
+class BlogView(DetailView):
+    model = Post
+    template_name = "blogDetail.html"
+
+
+class AddPost(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = "addBlog.html"
+
+    def form_valid(self, form):
+        form.instance.date = timezone.now()
+        author = get_object_or_404(Member, username=self.request.user.username)
+        form.instance.author = author
+        return super().form_valid(form)
+
+
+class UpdatePost(UpdateView):
+    model = Post
+    template_name = "updateBlog.html"
+    form_class = UpdateForm
+
+
+class DeletePost(DeleteView):
+    model = Post
+    template_name = "deleteBlog.html"
+    success_url = reverse_lazy("index")
+
+
 # this @unauthenticated_user is being called from the decorators
 @unauthenticated_user
 def signUp(request):
@@ -71,10 +123,10 @@ def logIn(request):
 
 
 def guest(request):
-    user = authenticate(request,username='guest',password='passwordabc')
+    user = authenticate(request, username="guest", password="passwordabc")
     login(request, user)
 
-    return redirect('index')
+    return redirect("index")
 
 
 def forum(request):
@@ -122,6 +174,9 @@ def russia(request):
 # guest users are not allowed to view this page
 @allowed_users(allowed_roles=["moderators", "members"])
 def palestine(request):
+    # Determine whether the user has access based on the decorator
+    has_access = request.user.groups.filter(name__in=["moderators", "members"]).exists()
+
     data = {
         "2023": 5371230,
         "2022": 5250072,
@@ -145,13 +200,20 @@ def palestine(request):
     return render(
         request,
         "palestine.html",
-        {"image_base64": image_base64, "content": all_entries},
+        {
+            "image_base64": image_base64,
+            "content": all_entries,
+            "has_access": has_access,
+        },
     )
 
 
 # guest users are not allowed to view this page
 @allowed_users(allowed_roles=["moderators", "members"])
 def zimbabwe(request):
+    # Determine whether the user has access based on the decorator
+    has_access = request.user.groups.filter(name__in=["moderators", "members"]).exists()
+
     data = {
         "2023": 16665409,
         "2022": 16320537,
@@ -173,8 +235,15 @@ def zimbabwe(request):
 
     all_entries = models.Content.objects.filter(country="Zimbabwe")
     return render(
-        request, "zimbabwe.html", {"image_base64": image_base64, "content": all_entries}
+        request,
+        "zimbabwe.html",
+        {
+            "image_base64": image_base64,
+            "content": all_entries,
+            "has_access": has_access,
+        },
     )
+
 
 
 def news(request):

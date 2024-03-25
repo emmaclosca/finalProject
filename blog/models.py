@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.urls import reverse
 class Member(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -8,20 +7,31 @@ class Member(models.Model):
     email = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
     
-class Posts(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-    content = models.TextField()
-    date = models.DateTimeField()
-    likes = models.IntegerField()
-    is_blog_post = models.BooleanField()
+    def __str__(self):
+        return self.username
     
-class Comments(models.Model):
+class Post(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    author = models.ForeignKey(Member, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    content = models.TextField(max_length=500)
+    date = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
+    is_blog_post = models.BooleanField()
+
+    def __str__(self):
+        return self.title + ' | ' + str(self.author) 
+
+    def get_absolute_url(self):
+        return reverse('index')
+
+    
+class Comment(models.Model):
     id = models.BigAutoField(primary_key=True)
     content = models.CharField(max_length=800)
     date = models.DateTimeField()
     likes = models.IntegerField()
-    posts_id = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    posts_id = models.ForeignKey(Post, on_delete=models.CASCADE)
     
 class Content(models.Model):
     id = models.BigAutoField(primary_key=True)

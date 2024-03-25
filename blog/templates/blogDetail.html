@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ post.title }}</h1>
+<small>By: {{ post.author.name }} - {{ post.date }} - 
+<small><a href ="{% url 'updatePost' post.pk %}">Edit</a>
+<a href ="{% url 'deletePost' post.pk %}">Delete</a></small>
+<br>
+{{ post.likes }}</small>
+<hr>
+<br>
+{{ post.content }}
+{% endblock %}
