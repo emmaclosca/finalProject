@@ -1,6 +1,6 @@
 import base64
 from io import BytesIO
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 import matplotlib
 
 # import requests
@@ -9,7 +9,7 @@ from http.client import (
     REQUEST_HEADER_FIELDS_TOO_LARGE,
     REQUEST_TIMEOUT,
 )
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -33,6 +33,20 @@ from . import models
 matplotlib.use("agg")
 
 
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else: 
+        post.likes.add(request.user)
+        liked = True
+   
+    
+    return HttpResponseRedirect(reverse('blogContent', args=[str(pk)]))
+
+
 def index(request):
     if request.user.is_authenticated:
         username = (
@@ -47,7 +61,6 @@ def index(request):
     else:
         return redirect("signUp")
 
-
 class IndexView(ListView):
     model = Post
     template_name = "index.html"
@@ -58,6 +71,22 @@ class IndexView(ListView):
 class BlogView(DetailView):
     model = Post
     template_name = "blogDetail.html"
+    
+    def get_context_data(self, *args, **kwargs):
+        # Correctly call the super method to get the context.
+        context = super(BlogView, self).get_context_data(*args, **kwargs)
+
+        # Retrieve the post and calculate total likes.
+        likes = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = likes.total_likes()  # Ensure this method returns the correct value
+        liked = False
+        if likes.likes.filter(id=self.request.user.id).exists():
+            liked = True
+        # Add total_likes to the context.
+        context["total_likes"] = total_likes
+        context["liked"] = liked
+
+        return context
 
 
 class AddPost(CreateView):
@@ -67,8 +96,7 @@ class AddPost(CreateView):
 
     def form_valid(self, form):
         form.instance.date = timezone.now()
-        author = get_object_or_404(Member, username=self.request.user.username)
-        form.instance.author = author
+        form.instance.author = self.request.user  # Set the author directly to the current user
         return super().form_valid(form)
 
 
@@ -97,11 +125,10 @@ def signUp(request):
         if password != passwordConfirm:
             return HttpResponse("Your passwords do not match, try again.")
         else:
-            my_user = User.objects.create_user(name, username, email, password)
+            my_user = User.objects.create_user(username, email, password)
             my_user.save()
-            messages.success(
-                request, "Your account was created successfully, " + username
-            )
+            Member.objects.create(user=my_user, name=name, username=username, email=email, password=password)
+            messages.success(request, "Your account was created successfully, " + username)
             return redirect("login")
 
     return render(request, "signUp.html", {})

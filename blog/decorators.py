@@ -6,11 +6,10 @@ from django.shortcuts import redirect
 # else, the user will get returned to the signup/login page
 def unauthenticated_user(view_func):
     def wrapper_func(request, *args, **kwargs):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and not request.user.username == "guest":
             return redirect("index")
         else:
             return view_func(request, *args, **kwargs)
-
     return wrapper_func
 
 

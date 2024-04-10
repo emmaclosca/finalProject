@@ -4,12 +4,18 @@
 <h1>Blog</h1>
   <ul>
     {% for post in blog_post %}
-      <li><a href="{% url 'blogContent' post.pk %}">
-        {{ post.title }}</a> - {{ post.author.name }} - 
-        <small><a href ="{% url 'updatePost' post.pk %}">Edit</a>
-           <a href ="{% url 'deletePost' post.pk %}">Delete</a></small>
+      <li>
+        <a href="{% url 'blogContent' post.pk %}">{{ post.title }}</a> - {{ post.author.username }} 
+
+        {% if request.user == post.author and not request.user.username == "guest" %}
+          <small>
+            <a href="{% url 'updatePost' post.pk %}">Edit</a>
+            <a href="{% url 'deletePost' post.pk %}">Delete</a>
+          </small>
+        {% endif %}
+        
         <br>
-        {{ post.content }} 
+        {{ post.content|slice:"100"|safe }} 
       </li>
     {% endfor %}
   </ul>

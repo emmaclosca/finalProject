@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import IndexView, BlogView, AddPost, UpdatePost, DeletePost
+from .views import IndexView, BlogView, AddPost, UpdatePost, DeletePost, LikeView
 
 urlpatterns = [
     # path("", views.index, name="index"),
@@ -18,5 +18,6 @@ urlpatterns = [
     path("settings/", views.settings, name="settings"),
     path("russia/", views.russia, name="russia"),
     path("palestine/", views.palestine, name="palestine"),
-    path("zimbabwe/", views.zimbabwe, name="zimbabwe"),   
+    path("zimbabwe/", views.zimbabwe, name="zimbabwe"),  
+    path("like/<int:pk>", LikeView, name="likePosts"),
 ]

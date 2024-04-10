@@ -1,12 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <h1>{{ post.title }}</h1>
-<small>By: {{ post.author.name }} - {{ post.date }} - 
-<small><a href ="{% url 'updatePost' post.pk %}">Edit</a>
-<a href ="{% url 'deletePost' post.pk %}">Delete</a></small>
-<br>
-{{ post.likes }}</small>
+<small>By: {{ post.author.username }} - {{ post.date }} - {{ total_likes }} Likes</small>
+  
+{% if request.user == post.author and not request.user.username == "guest" %}
+    <small>
+      <a href="{% url 'updatePost' post.pk %}">Edit</a>
+      <a href="{% url 'deletePost' post.pk %}">Delete</a>
+    </small>
+{% endif %}
 <hr>
 <br>
-{{ post.content }}
+{{ post.content|safe }}
+
+<form action="{% url 'likePosts' post.pk %}" method="POST">
+  {% csrf_token %}
+
+  {% if not request.user.username == "guest" %}
+  
+    {% if liked %}
+      <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button> 
+      {% else %}
+      <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button> 
+    {% endif %}
+
+  {% else %}
+    <small><a href="{% url 'login' %}" >Login</a> to like.</small>
+  {% endif %}
+</form>
+
 {% endblock %}

@@ -1,6 +1,10 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
+
 class Member(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)
     username = models.CharField(max_length=30)
@@ -12,11 +16,12 @@ class Member(models.Model):
     
 class Post(models.Model):
     id = models.BigAutoField(primary_key=True)
-    author = models.ForeignKey(Member, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    content = models.TextField(max_length=500)
+    content = RichTextField(blank=True, null=True)
+    # content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField(default=0)
+    likes = models.ManyToManyField(User, related_name='blog_post', default=0)
     is_blog_post = models.BooleanField()
 
     def __str__(self):
@@ -24,6 +29,9 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('index')
+    
+    def total_likes(self):
+        return self.likes.count()
 
     
 class Comment(models.Model):
