@@ -1,4 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Forum</h1>
+<ul>
+  {% for post in forum_post %}
+    <li>
+      <a href="{% url 'forumDetail' post.pk %}">{{ post.title }}</a> - {{ post.author.username }}
+      {% if request.user == post.author and not request.user.username == "guest" %}
+        <small>
+          <a href="{% url 'updateForumPost' post.pk %}">Edit</a>
+          <a href="{% url 'deleteForumPost' post.pk %}">Delete</a>
+        </small>
+      {% endif %}
+      <br>
+      {{ post.content|slice:"100"|safe }} 
+    </li>
+  {% endfor %}
+</ul>
 {% endblock %}

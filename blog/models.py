@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-from ckeditor.fields import RichTextField
 
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
@@ -18,10 +17,9 @@ class Post(models.Model):
     id = models.BigAutoField(primary_key=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    content = RichTextField(blank=True, null=True)
-    # content = models.TextField()
+    content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User, related_name='blog_post', default=0)
+    likes = models.ManyToManyField(User, related_name='blog_post')
     is_blog_post = models.BooleanField()
 
     def __str__(self):
@@ -36,11 +34,16 @@ class Post(models.Model):
     
 class Comment(models.Model):
     id = models.BigAutoField(primary_key=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comments', default='')
     content = models.CharField(max_length=800)
-    date = models.DateTimeField()
-    likes = models.IntegerField()
-    posts_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name='comment_likes')
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.post.title} - {self.author.username}'  # Adjusted to show username from the User model
     
+
 class Content(models.Model):
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=200)
@@ -54,6 +57,7 @@ class Content(models.Model):
     image_url = models.CharField(max_length=2000)
     video_url = models.CharField(max_length=2000)
     
+
 class Population(models.Model):
     id = models.BigAutoField(primary_key=True)
     country = models.CharField(max_length=50)

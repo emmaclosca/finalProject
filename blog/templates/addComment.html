@@ -2,16 +2,14 @@
 {% block content %}
 
 {% if not request.user.username == "guest" %}
-<h1>Edit Blog Post</h1>
+<h1>Add Comment</h1>
 <hr>
    <div class="form-group">
-      <form method="POST">
+      <form method="POST" action="{% url 'addComment' pk=post.pk %}">
          {% csrf_token %}
          {{ form.as_p }}
-         <button>Update</button>
+         <button type="submit">Add Comment</button>
       </form>
    </div>
-   {% else %}
-   No permission to view this page.
-   {% endif %}
+{% endif %}
 {% endblock %}

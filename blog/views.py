@@ -9,7 +9,7 @@ from http.client import (
     REQUEST_HEADER_FIELDS_TOO_LARGE,
     REQUEST_TIMEOUT,
 )
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -24,9 +24,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from .models import Member, Post
+from .models import Member, Post, Comment
 from django.utils import timezone
-from .forms import PostForm, UpdateForm
+from .forms import PostForm, UpdateForm, CommentForm
 
 from . import models
 
@@ -42,7 +42,6 @@ def LikeView(request, pk):
     else: 
         post.likes.add(request.user)
         liked = True
-   
     
     return HttpResponseRedirect(reverse('blogContent', args=[str(pk)]))
 
@@ -60,12 +59,17 @@ def index(request):
         )
     else:
         return redirect("signUp")
+    
 
+# blog operations
 class IndexView(ListView):
     model = Post
     template_name = "index.html"
     context_object_name = "blog_post"
     ordering = ["-id"]
+
+    def get_queryset(self):
+        return Post.objects.filter(is_blog_post=True).order_by('-id') # only shows the blog posts 
 
 
 class BlogView(DetailView):
@@ -100,6 +104,27 @@ class AddPost(CreateView):
         return super().form_valid(form)
 
 
+class AddComment(CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = "addComment.html"
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.post = get_object_or_404(Post, pk=self.kwargs.get('pk'))
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Ensure the post is fetched using 'pk' from the URL
+        context['post'] = get_object_or_404(Post, pk=self.kwargs.get('pk'))
+        return context
+
+    def get_success_url(self):
+        post_pk = self.kwargs.get('pk')
+        return reverse('blogContent', kwargs={'pk': post_pk})
+
+
 class UpdatePost(UpdateView):
     model = Post
     template_name = "updateBlog.html"
@@ -110,6 +135,66 @@ class DeletePost(DeleteView):
     model = Post
     template_name = "deleteBlog.html"
     success_url = reverse_lazy("index")
+
+
+# forum operations
+class ForumIndexView(ListView):
+    model = Post
+    template_name = "forum.html"
+    context_object_name = "forum_post"
+    ordering = ["-id"]
+
+    def get_queryset(self):
+        return Post.objects.filter(is_blog_post=False).order_by('-id')
+    
+
+class ForumDetail(DetailView):
+    model = Post
+    template_name = "forumDetail.html"
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(ForumDetail, self).get_context_data(*args, **kwargs)
+        post = get_object_or_404(Post, id=self.kwargs['pk'], is_blog_post=False)
+        total_likes = post.total_likes()
+        liked = post.likes.filter(id=self.request.user.id).exists()
+        context.update({
+            "total_likes": total_likes,
+            "liked": liked
+        })
+        return context
+    
+
+class AddForumPost(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = "addForum.html"
+
+    def form_valid(self, form):
+        form.instance.date = timezone.now()
+        form.instance.author = self.request.user
+        form.instance.is_blog_post = False  # Ensure this is a forum post
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('forum')
+    
+
+class UpdateForumPost(UpdateView):
+    model = Post
+    form_class = UpdateForm
+    template_name = "updateForum.html"
+
+    def get_queryset(self):
+        return Post.objects.filter(is_blog_post=False)
+    
+    def get_success_url(self):
+        return reverse_lazy('forum')
+    
+
+class DeleteForumPost(DeleteView):
+    model = Post
+    template_name = "deleteForum.html"
+    success_url = reverse_lazy("forum")
 
 
 # this @unauthenticated_user is being called from the decorators
