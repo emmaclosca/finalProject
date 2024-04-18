@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Posts in {{ category.name }}</h1>
+<ul>
+{% for post in category_posts %}
+    <li>
+        <a href="{% url 'blogContent' post.pk %}">{{ post.title }}</a> - {{ post.author.username }}
+        <br>{{ post.content|slice:"100"|safe }}
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}

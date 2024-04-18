@@ -21,6 +21,7 @@ class Post(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='blog_post')
     is_blog_post = models.BooleanField()
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, default='default_category')
 
     def __str__(self):
         return self.title + ' | ' + str(self.author) 
@@ -31,6 +32,16 @@ class Post(models.Model):
     def total_likes(self):
         return self.likes.count()
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse('forum')
+    
     
 class Comment(models.Model):
     id = models.BigAutoField(primary_key=True)

@@ -13,7 +13,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 import matplotlib.pyplot as plt
 from django.contrib import messages
 from .decorators import unauthenticated_user, allowed_users
@@ -24,7 +23,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from .models import Member, Post, Comment
+from .models import Category, Member, Post, Comment
 from django.utils import timezone
 from .forms import PostForm, UpdateForm, CommentForm
 
@@ -60,6 +59,16 @@ def index(request):
     else:
         return redirect("signUp")
     
+
+def CategoryView(request, category_name):
+    # Fetch the category using a case-insensitive query
+    category = get_object_or_404(Category, name__iexact=category_name)
+    category_posts = Post.objects.filter(category=category)
+    return render(request, "categories.html", {
+        "category": category,
+        "category_posts": category_posts
+    })
+
 
 # blog operations
 class IndexView(ListView):
@@ -196,6 +205,9 @@ class DeleteForumPost(DeleteView):
     template_name = "deleteForum.html"
     success_url = reverse_lazy("forum")
 
+
+
+    
 
 # this @unauthenticated_user is being called from the decorators
 @unauthenticated_user

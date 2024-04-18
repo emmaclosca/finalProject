@@ -5,7 +5,7 @@
   <ul>
     {% for post in blog_post %}
       <li>
-        <a href="{% url 'blogContent' post.pk %}">{{ post.title }}</a> - {{ post.author.username }} 
+        <a href="{% url 'blogContent' post.pk %}">{{ post.title }}</a> - {{ post.author.username }} - <a href="{% url 'category' post.category  %}"> {{ post.category }} </a>
 
         {% if request.user == post.author and not request.user.username == "guest" %}
           <small>
