@@ -25,7 +25,7 @@ from django.views.generic import (
 )
 from .models import Category, Member, Post, Comment
 from django.utils import timezone
-from .forms import PostForm, UpdateForm, CommentForm
+from .forms import BlogForm, UpdateForm, CommentForm, ForumForm
 
 from . import models
 
@@ -59,16 +59,6 @@ def index(request):
     else:
         return redirect("signUp")
     
-
-def CategoryView(request, category_name):
-    # Fetch the category using a case-insensitive query
-    category = get_object_or_404(Category, name__iexact=category_name)
-    category_posts = Post.objects.filter(category=category)
-    return render(request, "categories.html", {
-        "category": category,
-        "category_posts": category_posts
-    })
-
 
 # blog operations
 class IndexView(ListView):
@@ -104,7 +94,7 @@ class BlogView(DetailView):
 
 class AddPost(CreateView):
     model = Post
-    form_class = PostForm
+    form_class = BlogForm
     template_name = "addBlog.html"
 
     def form_valid(self, form):
@@ -147,7 +137,7 @@ class DeletePost(DeleteView):
 
 
 # forum operations
-class ForumIndexView(ListView):
+class ForumView(ListView):
     model = Post
     template_name = "forum.html"
     context_object_name = "forum_post"
@@ -175,7 +165,7 @@ class ForumDetail(DetailView):
 
 class AddForumPost(CreateView):
     model = Post
-    form_class = PostForm
+    form_class = ForumForm
     template_name = "addForum.html"
 
     def form_valid(self, form):
@@ -206,7 +196,31 @@ class DeleteForumPost(DeleteView):
     success_url = reverse_lazy("forum")
 
 
+# categories
+def general(request):
+    # Fetch the category object for 'General'
+    category = get_object_or_404(Category, name__iexact='General')
+    # Fetch all posts belonging to the 'General' category
+    category_posts = Post.objects.filter(category=category)
+    return render(request, "generalCat.html", {"category_posts": category_posts})
 
+
+def educational(request):
+    # Fetch the category object for 'Educational'
+    category = get_object_or_404(Category, name__iexact='Educational')
+    # Fetch all posts belonging to the 'Educational' category
+    category_posts = Post.objects.filter(category=category)
+    return render(request, "educationalCat.html", {"category_posts": category_posts})
+
+
+def CategoryView(request, category_name):
+    # Fetch the category using a case-insensitive query
+    category = get_object_or_404(Category, name__iexact=category_name)
+    category_posts = Post.objects.filter(category=category)
+    return render(request, "categories.html", {
+        "category": category,
+        "category_posts": category_posts
+    })
     
 
 # this @unauthenticated_user is being called from the decorators

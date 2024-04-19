@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     id = models.BigAutoField(primary_key=True)
@@ -21,7 +22,7 @@ class Post(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='blog_post')
     is_blog_post = models.BooleanField()
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, default='default_category')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.title + ' | ' + str(self.author) 
