@@ -146,6 +146,20 @@ class ForumView(ListView):
     def get_queryset(self):
         return Post.objects.filter(is_blog_post=False).order_by('-id')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Fetch posts categorized as "General"
+        general_category = Category.objects.get(name='General')
+        general_posts = Post.objects.filter(category=general_category)
+        
+        # Fetch posts categorized as "Educational"
+        educational_category = Category.objects.get(name='Educational')
+        educational_posts = Post.objects.filter(category=educational_category)
+        
+        context["general_posts"] = general_posts
+        context["educational_posts"] = educational_posts
+        return context
+    
 
 class ForumDetail(DetailView):
     model = Post
@@ -197,31 +211,29 @@ class DeleteForumPost(DeleteView):
 
 
 # categories
-def general(request):
-    # Fetch the category object for 'General'
-    category = get_object_or_404(Category, name__iexact='General')
-    # Fetch all posts belonging to the 'General' category
-    category_posts = Post.objects.filter(category=category)
-    return render(request, "generalCat.html", {"category_posts": category_posts})
+class GeneralView(ListView):
+    model = Post
+    template_name = "generalCat.html"
+    context_object_name = "category_posts"
+
+    def get_queryset(self):
+        # Retrieve the General category
+        general_category = Category.objects.get(name__iexact='General')
+        # Fetch posts belonging to the General category
+        return Post.objects.filter(category=general_category)
 
 
-def educational(request):
-    # Fetch the category object for 'Educational'
-    category = get_object_or_404(Category, name__iexact='Educational')
-    # Fetch all posts belonging to the 'Educational' category
-    category_posts = Post.objects.filter(category=category)
-    return render(request, "educationalCat.html", {"category_posts": category_posts})
+class EducationalView(ListView):
+    model = Post
+    template_name = "educationalCat.html"
+    context_object_name = "category_posts"
 
-
-def CategoryView(request, category_name):
-    # Fetch the category using a case-insensitive query
-    category = get_object_or_404(Category, name__iexact=category_name)
-    category_posts = Post.objects.filter(category=category)
-    return render(request, "categories.html", {
-        "category": category,
-        "category_posts": category_posts
-    })
-    
+    def get_queryset(self):
+        # Retrieve the Educational category
+        educational_category = Category.objects.get(name__iexact='Educational')
+        # Fetch posts belonging to the Educational category
+        return Post.objects.filter(category=educational_category)
+   
 
 # this @unauthenticated_user is being called from the decorators
 @unauthenticated_user
@@ -265,10 +277,6 @@ def guest(request):
     login(request, user)
 
     return redirect("index")
-
-
-def forum(request):
-    return render(request, "forum.html", {})
 
 
 # guest users are not allowed to view this page

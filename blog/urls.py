@@ -35,7 +35,6 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("settings/", views.settings, name="settings"),
     # Category URLs
-    # path("category/<str:category_name>/", CategoryView, name="category"),
-    path("general/", views.general, name="general"),
-    path("educational/", views.educational, name="educational"),
+    path("general/", views.GeneralView.as_view(), name="general"),
+    path("educational/", views.EducationalView.as_view(), name="educational"),
 ]
