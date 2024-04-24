@@ -13,7 +13,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm, AuthenticationForm
 from django.contrib.auth.views import PasswordChangeView
 import matplotlib.pyplot as plt
 from django.contrib import messages
@@ -28,7 +28,7 @@ from django.views.generic import (
 )
 from .models import Category, Member, Post, Comment
 from django.utils import timezone
-from .forms import BlogForm, EditProfileForm, UpdateForm, CommentForm, ForumForm, PasswordChangedForm
+from .forms import BlogForm, EditProfileForm, SignUpForm, UpdateForm, CommentForm, ForumForm, PasswordChangedForm
 
 from . import models
 
@@ -242,37 +242,33 @@ class EducationalView(ListView):
 @unauthenticated_user
 def signUp(request):
     if request.method == "POST":
-        name = request.POST.get("name")
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        passwordConfirm = request.POST.get("passwordConfirm")
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # This saves the user and handles password hashing
+            messages.success(request, 'Your account was created successfully! You can now log in.')
+            return redirect('logIn')
+    else:
+        form = SignUpForm()  # Ensure this is correctly instantiated
 
-        if password != passwordConfirm:
-            return HttpResponse("Your passwords do not match, try again.")
-        else:
-            my_user = User.objects.create_user(username, email, password)
-            my_user.save()
-            Member.objects.create(user=my_user, name=name, username=username, email=email, password=password)
-            messages.success(request, "Your account was created successfully, " + username)
-            return redirect("login")
-
-    return render(request, "signUp.html", {})
+    return render(request, 'signUp.html', {'form': form})
 
 
-@unauthenticated_user
+
 def logIn(request):
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("index")
-        else:
-            messages.info(request, "Username or password is incorrect.")
-
-    return render(request, "logIn.html", {})
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("index")
+            else:
+                messages.error(request, 'Invalid username or password.')
+    else:
+        form = AuthenticationForm()
+    return render(request, "logIn.html", {'form': form})
 
 
 def guest(request):

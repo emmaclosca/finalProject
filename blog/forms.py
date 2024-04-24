@@ -1,6 +1,6 @@
 from django import forms
 from .models import Post, Comment, Category, User
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm, UserCreationForm
 
 
 choices = Category.objects.all().values_list('name', 'name')
@@ -9,6 +9,18 @@ category_list = []
 
 for item in choices:
     category_list.append(item)
+
+
+class SignUpForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}),
+        }
 
 
 class BlogForm(forms.ModelForm):
