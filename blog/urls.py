@@ -1,9 +1,9 @@
 from django.urls import path
 from . import views
 from .views import (
-    AddForumPost, DeleteForumPost, ForumDetail, ForumView, 
+    AddForumPost, DeleteForumPost, EditProfile, ForumDetail, ForumView, 
     IndexView, BlogView, AddPost, UpdateForumPost, UpdatePost, DeletePost, 
-    LikeView, AddComment
+    LikeView, AddComment, ChangePassword
 )
 
 urlpatterns = [
@@ -34,6 +34,9 @@ urlpatterns = [
     # Profile and settings URLs
     path("profile/", views.profile, name="profile"),
     path("settings/", views.settings, name="settings"),
+    path("editProfile/", EditProfile.as_view(), name="editProfile"),
+    path("password/", ChangePassword.as_view(), name="change_password"),
+    path("passwordSuccess", views.passwordSuccess, name="passwordSuccess"),
     # Category URLs
     path("general/", views.GeneralView.as_view(), name="general"),
     path("educational/", views.EducationalView.as_view(), name="educational"),

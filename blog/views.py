@@ -13,8 +13,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
 import matplotlib.pyplot as plt
 from django.contrib import messages
+from numpy import generic
 from .decorators import unauthenticated_user, allowed_users
 from django.views.generic import (
     ListView,
@@ -25,7 +28,7 @@ from django.views.generic import (
 )
 from .models import Category, Member, Post, Comment
 from django.utils import timezone
-from .forms import BlogForm, UpdateForm, CommentForm, ForumForm
+from .forms import BlogForm, EditProfileForm, UpdateForm, CommentForm, ForumForm, PasswordChangedForm
 
 from . import models
 
@@ -391,13 +394,31 @@ def zimbabwe(request):
     )
 
 
-
 def news(request):
     return render(request, "news.html", {})
 
 
 def profile(request):
     return render(request, "profile.html", {})
+
+
+class EditProfile(UpdateView):
+    form_class = EditProfileForm
+    template_name = "editProfile.html"
+    success_url = reverse_lazy("index")
+
+    def get_object(self):
+        return self.request.user
+    
+
+class ChangePassword(PasswordChangeView):
+    form_class = PasswordChangedForm
+    template_name = 'changePassword.html'  
+    success_url = reverse_lazy('passwordSuccess') 
+
+
+def passwordSuccess(request):
+    return render(request, "passwordSuccess.html", {})
 
 
 def settings(request):
