@@ -35,7 +35,7 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("settings/", views.settings, name="settings"),
     path("editProfile/", EditProfile.as_view(), name="editProfile"),
-    path("password/", ChangePassword.as_view(), name="change_password"),
+    path("password/", ChangePassword.as_view(), name="changePassword"),
     path("passwordSuccess", views.passwordSuccess, name="passwordSuccess"),
     # Category URLs
     path("general/", views.GeneralView.as_view(), name="general"),

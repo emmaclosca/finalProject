@@ -248,10 +248,9 @@ def signUp(request):
             messages.success(request, 'Your account was created successfully! You can now log in.')
             return redirect('logIn')
     else:
-        form = SignUpForm()  # Ensure this is correctly instantiated
+        form = SignUpForm()  
 
     return render(request, 'signUp.html', {'form': form})
-
 
 
 def logIn(request):
@@ -405,6 +404,11 @@ class EditProfile(UpdateView):
 
     def get_object(self):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['password_form'] = PasswordChangeForm(self.request.user)  
+        return context
     
 
 class ChangePassword(PasswordChangeView):

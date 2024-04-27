@@ -73,14 +73,19 @@ class CommentForm(forms.ModelForm):
 
 
 class EditProfileForm(UserChangeForm):
-    name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
-
+    password = None  # This line ensures the password field is not handled by this form
+    
     class Meta:
         model = User
-        fields = ("name", "username", "email", "password")
+        fields = ("username", "email")  # Remove 'password' from the fields list
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.fields['username'].help_text = ''
 
 
 class PasswordChangedForm(PasswordChangeForm):
