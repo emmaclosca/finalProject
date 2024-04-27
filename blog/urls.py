@@ -8,6 +8,7 @@ from .views import (
 
 urlpatterns = [
     path("index/", IndexView.as_view(), name="index"),
+    path("homepage/", views.homepage, name="homepage"),
     # Blog URLs
     path("blog/<int:pk>/", BlogView.as_view(), name="blogContent"), 
     path("addPost/", AddPost.as_view(), name="addPost"),
@@ -35,8 +36,6 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("settings/", views.settings, name="settings"),
     path("editProfile/", EditProfile.as_view(), name="editProfile"),
-    path("password/", ChangePassword.as_view(), name="changePassword"),
-    path("passwordSuccess", views.passwordSuccess, name="passwordSuccess"),
     # Category URLs
     path("general/", views.GeneralView.as_view(), name="general"),
     path("educational/", views.EducationalView.as_view(), name="educational"),

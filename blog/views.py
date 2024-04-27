@@ -397,6 +397,10 @@ def profile(request):
     return render(request, "profile.html", {})
 
 
+def homepage(request):
+    return render(request, "homepage.html", {})
+
+
 class EditProfile(UpdateView):
     form_class = EditProfileForm
     template_name = "editProfile.html"

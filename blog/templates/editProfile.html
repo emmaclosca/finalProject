@@ -1,56 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<html>
-   <body>
-      <h1>Edit Profile</h1>
-      <br>
+<h1>Edit Profile</h1>
+<br>
 
-      <div class="form-group">
-          <form method="POST">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <button type="submit" class="btn btn-secondary">Save Changes</button>
-              <!-- Button to trigger the modal -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changePasswordModal">
-                  Change Password
-              </button>
-          </form>
-      </div>
+<div class="form-group">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <!-- Password change fields -->
+        <h5>Change Password</h5>
+        {{ password_form.as_p }}
+        
+        <!-- Save Changes button -->
+        <button type="submit" class="btn btn-secondary">Save Changes</button>
+    </form>
+</div>
 
-      <!-- Change Password Modal -->
-      <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="passwordChangeForm" method="post" action="{% url 'changePassword' %}">
-                        {% csrf_token %}
-                        {{ password_form.as_p }}  <!-- Render the password form here -->
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submitPasswordChangeForm()">Save Password</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-      <script>
-         $(document).ready(function() {
-           // Trigger the modal to show automatically if needed, or on button click
-           // Optionally, handle form submission via AJAX as needed
-         });
-      </script>
-   </body>
-</html>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Optional: You can add client-side validation or other logic here
+    });
+</script>
 {% endblock %}
