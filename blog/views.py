@@ -433,7 +433,7 @@ class EditProfile(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['password_form'] = PasswordChangeForm(self.request.user)  
+        context['passwordForm'] = PasswordChangeForm(self.request.user)  
         return context
     
 

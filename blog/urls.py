@@ -33,8 +33,6 @@ urlpatterns = [
       path("like/<int:pk>", LikeView, name="likePosts"),
     path("blog/<int:pk>/addComment/", AddComment.as_view(), name="addComment"),
     # Profile and settings URLs
-    path("profile/", views.profile, name="profile"),
-    path("settings/", views.settings, name="settings"),
     path("editProfile/", EditProfile.as_view(), name="editProfile"),
     # Category URLs
     path("general/", views.GeneralView.as_view(), name="general"),
