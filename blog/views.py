@@ -394,10 +394,6 @@ def news(request):
     return render(request, "news.html", {})
 
 
-def profile(request):
-    return render(request, "profile.html", {})
-
-
 def homepage(request):
     # # Replace 'YOUR_API_KEY' with your actual API key
     # api_key = '98c11e6802514f0fbdf170048242804'
@@ -440,14 +436,6 @@ class EditProfile(UpdateView):
         context['password_form'] = PasswordChangeForm(self.request.user)  
         return context
     
-
-def passwordSuccess(request):
-    return render(request, "passwordSuccess.html", {})
-
-
-def settings(request):
-    return render(request, "settings.html", {})
-
 
 def logOut(request):
     logout(request)
