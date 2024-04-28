@@ -3,7 +3,7 @@ from . import views
 from .views import (
     AddForumPost, DeleteForumPost, EditProfile, ForumDetail, ForumView, 
     IndexView, BlogView, AddPost, UpdateForumPost, UpdatePost, DeletePost, 
-    LikeView, AddComment, ChangePassword
+    LikeView, AddComment
 )
 
 urlpatterns = [

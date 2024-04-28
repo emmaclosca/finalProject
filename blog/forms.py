@@ -1,6 +1,7 @@
 from django import forms
 from .models import Post, Comment, Category, User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm, UserCreationForm
+from django.contrib.auth import get_user_model
 
 
 choices = Category.objects.all().values_list('name', 'name')
@@ -87,12 +88,14 @@ class EditProfileForm(UserChangeForm):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.fields['username'].help_text = ''
 
+User = get_user_model()
 
 class PasswordChangedForm(PasswordChangeForm):
-    old_password = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password'}))
-    new_password1 = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password'}))
-    new_password2 = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password'}))
+    old_password = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password', 'id': 'id_old_password'}))
+    new_password1 = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password', 'id': 'id_new_password1'}))
+    new_password2 = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password', 'id': 'id_new_password2'}))
 
     class Meta:
         model = User
         fields = ("old_password", "new_password1", "new_password2")
+

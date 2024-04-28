@@ -3,27 +3,57 @@
 {% block content %}
 <h1>Edit Profile</h1>
 <br>
+<div id="passwordResetSuccess" style="color: green; display: none;">Password has been reset successfully!</div>
 
 <div class="form-group">
-    <form method="POST">
+    <form method="POST" id="profileForm">
         {% csrf_token %}
         {{ form.as_p }}
         <br>
-        <!-- Password change fields -->
         <h5>Change Password</h5>
         {{ password_form.as_p }}
-        
-        <!-- Save Changes button -->
+        <div id="passwordMismatch" style="color: red; display: none;">Passwords do not match.</div>
         <button type="submit" class="btn btn-secondary">Save Changes</button>
     </form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // Optional: You can add client-side validation or other logic here
+$(document).ready(function() {
+    $('#profileForm').submit(function(event) {
+        event.preventDefault(); 
+        
+        // this makes sure the new passwords match in order to save
+        var password1 = $('#id_new_password1').val();
+        var password2 = $('#id_new_password2').val();
+        if (password1 !== password2) {
+            $('#passwordMismatch').show();
+        } else {
+            $('#passwordMismatch').hide();
+            
+            // jquery function to call a HTTP request
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'), //sets the url and retrieves the action of the form (save changes)
+                data: $(this).serialize(), // serializes the form data into a query string
+                success: function(response) {
+                
+                    $('#passwordChangedMessage').text('Password changed successfully!');
+                    $('#passwordChangedMessage').show();
+                    
+                    // this resets the password input boxes once the changes have been saved
+                    $('#id_old_password').val('');
+                    $('#id_new_password1').val('');
+                    $('#id_new_password2').val('');
+                    
+                    $('#passwordResetSuccess').show();
+                },
+            });
+        }
     });
+});
 </script>
 {% endblock %}

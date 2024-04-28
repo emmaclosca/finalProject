@@ -29,6 +29,7 @@ from django.views.generic import (
 from .models import Category, Member, Post, Comment
 from django.utils import timezone
 from .forms import BlogForm, EditProfileForm, SignUpForm, UpdateForm, CommentForm, ForumForm, PasswordChangedForm
+import requests
 
 from . import models
 
@@ -398,6 +399,31 @@ def profile(request):
 
 
 def homepage(request):
+    # # Replace 'YOUR_API_KEY' with your actual API key
+    # api_key = '98c11e6802514f0fbdf170048242804'
+
+    # # Replace 'API_ENDPOINT' with the actual API endpoint URL
+    # api_endpoint = 'API_ENDPOINT'
+
+    # # Make sure to include the API key in the request headers
+    # headers = {
+    #     'Authorization': f'Bearer {api_key}'
+    # }
+
+    # # Make the GET request
+    # response = requests.get(api_endpoint, headers=headers)
+
+    # # Check if the request was successful (status code 200)
+    # if response.status_code == 200:
+    #     # Process the response data
+    #     data = response.json()
+    #     # Do something with the data
+    # else:
+    #     # Handle errors
+    #     error_message = f"Error: {response.status_code}"
+    #     # Handle the error message appropriately
+
+    # # Return an appropriate HTTP response
     return render(request, "homepage.html", {})
 
 
@@ -414,12 +440,6 @@ class EditProfile(UpdateView):
         context['password_form'] = PasswordChangeForm(self.request.user)  
         return context
     
-
-class ChangePassword(PasswordChangeView):
-    form_class = PasswordChangedForm
-    template_name = 'changePassword.html'  
-    success_url = reverse_lazy('passwordSuccess') 
-
 
 def passwordSuccess(request):
     return render(request, "passwordSuccess.html", {})
