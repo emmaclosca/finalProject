@@ -395,31 +395,35 @@ def news(request):
 
 
 def homepage(request):
-    # # Replace 'YOUR_API_KEY' with your actual API key
-    # api_key = '98c11e6802514f0fbdf170048242804'
+    city = request.GET.get('city', 'Dublin') 
+    url = f"http://api.weatherapi.com/v1/current.json?key=98c11e6802514f0fbdf170048242804&q={city}&aqi=no"
 
-    # # Replace 'API_ENDPOINT' with the actual API endpoint URL
-    # api_endpoint = 'API_ENDPOINT'
+    headers = {
+        "Connection": "keep-alive",
+        "Vary": "Accept-Encoding",
+        "CDN-PullZone": "93447",
+        "CDN-Uid": "8fa3a04a-75d9-4707-8056-b7b33c8ac7fe",
+        "CDN-RequestCountryCode": "GB",
+        "Age": "0",
+        "x-weatherapi-qpm-left": "4999993",
+        "CDN-ProxyVer": "1.04",
+        "CDN-RequestPullSuccess": "True",
+        "CDN-RequestPullCode": "200",
+        "CDN-CachedAt": "05/01/2024 14:52:21",
+        "CDN-EdgeStorageId": "863",
+        "CDN-Status": "200",
+        "CDN-RequestId": "6687307dc77810de7ba48d3e671c2bea",
+        "CDN-Cache": "EXPIRED",
+        "Accept-Ranges": "bytes",
+        "Content-Length": "700",
+        "Cache-Control": "public, max-age=180",
+        "Content-Type": "application/json",
+        "Date": "Wed, 01 May 2024 14:52:21 GMT",
+        "Server": "BunnyCDN-DE1-722",
+        "Via": "1.1 varnish (Varnish/6.0)"
+    }
 
-    # # Make sure to include the API key in the request headers
-    # headers = {
-    #     'Authorization': f'Bearer {api_key}'
-    # }
-
-    # # Make the GET request
-    # response = requests.get(api_endpoint, headers=headers)
-
-    # # Check if the request was successful (status code 200)
-    # if response.status_code == 200:
-    #     # Process the response data
-    #     data = response.json()
-    #     # Do something with the data
-    # else:
-    #     # Handle errors
-    #     error_message = f"Error: {response.status_code}"
-    #     # Handle the error message appropriately
-
-    # # Return an appropriate HTTP response
+    response = requests.get(url, headers=headers)
     return render(request, "homepage.html", {})
 
 
