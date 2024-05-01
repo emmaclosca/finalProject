@@ -16,7 +16,12 @@
         fetch(`http://api.weatherapi.com/v1/current.json?key=98c11e6802514f0fbdf170048242804&q=${city}&aqi=no`)
             .then(data => data.json())
             .then(data => {
-                document.querySelector("#cityData").innerText = JSON.stringify(data, null, 2);
+                const { temp_c, temp_f, condition, location } = data.current;
+                const name = data.location.name;  // Accessing name directly
+                const { text } = condition;
+                
+                const weatherInfo = `Current temperature in ${name}: ${temp_c}°C (${temp_f}°F), ${text}`;
+                document.querySelector("#cityData").innerText = weatherInfo;
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
