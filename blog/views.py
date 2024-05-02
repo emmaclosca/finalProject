@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm, AuthenticationForm
 from django.contrib.auth.views import PasswordChangeView
+from django.core.paginator import Paginator
 import matplotlib.pyplot as plt
 from django.contrib import messages
 from numpy import generic
@@ -51,17 +52,22 @@ def LikeView(request, pk):
 
 def index(request):
     if request.user.is_authenticated:
-        username = (
-            request.user.username
-        )  # this takes the logged in username and used for the "Hello, username" in the navbar
-        # print(request.user.groups)
+        username = request.user.username
+        posts = Post.objects.filter(is_blog_post=True).order_by('-id')
+        paginator = Paginator(posts, 10)  # Show 10 posts per page.
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         return render(
             request,
             "index.html",
-            {"username": username},
+            {"username": username, "page_obj": page_obj},
         )
     else:
         return redirect("signUp")
+
+
     
 
 # blog operations
