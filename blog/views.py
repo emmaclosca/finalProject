@@ -9,16 +9,12 @@ from http.client import (
     REQUEST_HEADER_FIELDS_TOO_LARGE,
     REQUEST_TIMEOUT,
 )
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm, AuthenticationForm
-from django.contrib.auth.views import PasswordChangeView
-from django.core.paginator import Paginator
+from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 import matplotlib.pyplot as plt
 from django.contrib import messages
-from numpy import generic
 from .decorators import unauthenticated_user, allowed_users
 from django.views.generic import (
     ListView,
@@ -27,9 +23,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from .models import Category, Member, Post, Comment
+from .models import Category, Post, Comment
 from django.utils import timezone
-from .forms import BlogForm, EditProfileForm, SignUpForm, UpdateForm, CommentForm, ForumForm, PasswordChangedForm
+from .forms import BlogForm, EditProfileForm, SignUpForm, UpdateForm, CommentForm, ForumForm
 import requests
 
 from . import models
@@ -52,22 +48,17 @@ def LikeView(request, pk):
 
 def index(request):
     if request.user.is_authenticated:
-        username = request.user.username
-        posts = Post.objects.filter(is_blog_post=True).order_by('-id')
-        paginator = Paginator(posts, 10)  # Show 10 posts per page.
-
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-
+        username = (
+            request.user.username
+        )  # this takes the logged in username and used for the "Hello, username" in the navbar
+        # print(request.user.groups)
         return render(
             request,
             "index.html",
-            {"username": username, "page_obj": page_obj},
+            {"username": username},
         )
     else:
         return redirect("signUp")
-
-
     
 
 # blog operations

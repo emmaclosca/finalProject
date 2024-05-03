@@ -1,0 +1,80 @@
+.custom-input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #ccc; 
+    outline: none;
+    border-radius: 40px;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.5); 
+    padding: 20px 45px 20px 20px;
+}
+
+.custom-input::placeholder {
+    color: rgba(255, 255, 255, 0.5); 
+}
+
+.custom-input:focus {
+    background: transparent; 
+    border-color: #ccc; 
+    color: rgba(255, 255, 255, 0.5); 
+}
+
+.custom-input:focus::placeholder {
+    color: rgba(255, 255, 255, 0.5); 
+}
+
+.custom-input:not(:placeholder-shown) {
+    color: rgba(255, 255, 255, 0.8); 
+}
+
+.custom-btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333; 
+    font-weight: 600;
+}
+
+.custom-link {
+    color: #ccc; 
+    text-decoration: none;
+}
+
+.custom-link:hover {
+    text-decoration: underline;
+}
+
+.wrapper {
+    background-color: rgba(12, 13, 18, 0.8); 
+    border-radius: 12px;
+    padding: 80px 40px 100px; 
+    border: 2px solid #ccc; 
+    backdrop-filter: blur(5px); 
+}
+
+.container {
+    padding: 50px 0 150px; 
+  }
+
+h3 {
+    color: #ccc; 
+}
+
+body {
+    background-image: url("../../static/blog/images/userAuthBg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Ensures the background image remains fixed as the user scrolls */
+    background-repeat: no-repeat;
+    backdrop-filter: blur(5px); /* Blur out the background */
+    height: 100vh; /* Set height to full viewport height */
+    overflow: hidden; /* Hide overflow to disable scrolling */
+  }
+  
