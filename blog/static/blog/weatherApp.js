@@ -23,10 +23,6 @@ search.addEventListener('click', () => {
                 error404.style.display = 'block';
                 error404.classList.add('fadeIn');
 
-                // Display invalid location message and image
-                error404.querySelector('p').textContent = `Oops! Invalid location :/`;
-                error404.querySelector('img').src = '{% static "blog/images/404.png" %}';
-
                 return;
             }
 
@@ -41,23 +37,23 @@ search.addEventListener('click', () => {
 
             switch (json.current.condition.text) {
                 case 'Clear':
-                    image.src = 'images/clear.png';
+                    image.src = 'blog/images/clear.png';
                     break;
 
                 case 'Rain':
-                    image.src = 'images/rain.png';
+                    image.src = 'blog/images/rain.png';
                     break;
 
                 case 'Snow':
-                    image.src = 'images/snow.png';
+                    image.src = 'blog/images/snow.png';
                     break;
 
                 case 'Clouds':
-                    image.src = 'images/cloud.png';
+                    image.src = 'blog/images/cloud.png';
                     break;
 
                 case 'Haze':
-                    image.src = 'images/mist.png';
+                    image.src = 'blog/images/mist.png';
                     break;
 
                 default:
@@ -82,9 +78,5 @@ search.addEventListener('click', () => {
             weatherDetails.style.display = 'none';
             error404.style.display = 'block';
             error404.classList.add('fadeIn');
-
-            // Display invalid location message and image
-            error404.querySelector('p').textContent = `Oops! Invalid location :/`;
-            error404.querySelector('img').src = '{% static "blog/images/404.png" %}';
         });
 });
