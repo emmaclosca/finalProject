@@ -1,27 +1,85 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Forum - <small><a href="{% url 'addForumPost' %}">Add Post</a></h1>
+<link rel="stylesheet" type="text/css" href="{% static 'blog/index.css' %}">
 
-<!-- Display posts categorized as "General" -->
-<h2>General</h2>
-<ul>
-  {% for post in general_posts %}
-    <li>
-      <a href="{% url 'forumDetail' post.pk %}">{{ post.title }}</a> - {{ post.author.username }}
-      <br>{{ post.content|slice:"100"|safe }}
-    </li>
-  {% endfor %}
-</ul>
+<header class="masthead">
+    <div class="container-fluid position-relative px-4 px-lg-5"> 
+        <div class="row justify-content-center">
+            <div class="col-12"> 
+                <div class="site-heading">
+                    <h1>Community Forum</h1>
+                    <span class="subheading">Engage and Learn</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
-<!-- Display posts categorized as "Educational" -->
-<h2>Educational</h2>
-<ul>
-  {% for post in educational_posts %}
-    <li>
-      <a href="{% url 'forumDetail' post.pk %}">{{ post.title }}</a> - {{ post.author.username }}
-      <br>{{ post.content|slice:"100"|safe }}
-    </li>
-  {% endfor %}
-</ul>
+<div class="container-fluid px-4 px-lg-5"> 
+    <div class="row">
+        <div class="col-12"> 
+            <!-- Tabs for category filtering -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <button class="nav-link active" onclick="filterPosts('general')">General</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" onclick="filterPosts('educational')">Educational</button>
+                </li>
+            </ul>
+
+            <!-- Posts Container -->
+            <div id="general-posts" class="posts-category">
+                {% for post in general_posts %}
+                <div class="post-preview">
+                    <a href="{% url 'forumDetail' post.pk %}">
+                        <h2 class="post-title">{{ post.title }}</h2>
+                    </a>
+                    <p class="post-meta">Posted by {{ post.author.username }} on {{ post.created_at|date:'F d, Y' }}</p>
+                    <p>{{ post.content|slice:"100"|safe }}</p>
+                </div>
+                <hr class="my-4">
+                {% endfor %}
+            </div>
+
+            <div id="educational-posts" class="posts-category" style="display:none;">
+                {% for post in educational_posts %}
+                <div class="post-preview">
+                    <a href="{% url 'forumDetail' post.pk %}">
+                        <h2 class="post-title">{{ post.title }}</h2>
+                    </a>
+                    <p class="post-meta">Posted by {{ post.author.username }} on {{ post.created_at|date:'F d, Y' }}</p>
+                    <p>{{ post.content|slice:"100"|safe }}</p>
+                </div>
+                <hr class="my-4">
+                {% endfor %}
+            </div>
+
+            <!-- Pager -->
+            <div class="d-flex justify-content-start mb-4">
+              <a class="btn btn-primary text-uppercase" href="{% url 'addForumPost' %}">Add Post</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script for the general and educational tabs -->
+<script>
+function filterPosts(category) {
+    var categories = document.getElementsByClassName('posts-category');
+    for (var i = 0; i < categories.length; i++) {
+        categories[i].style.display = 'none';
+    }
+    document.getElementById(category + '-posts').style.display = 'block';
+
+    var links = document.getElementsByClassName('nav-link');
+    for (var j = 0; j < links.length; j++) {
+        links[j].classList.remove('active');
+    }
+    event.target.classList.add('active');
+}
+</script>
+
 {% endblock %}

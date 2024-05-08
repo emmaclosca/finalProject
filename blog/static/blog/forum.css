@@ -1,0 +1,82 @@
+/* Body styles */
+body {
+    font-family: 'Poppins', sans-serif; 
+    margin: 0;
+}
+
+/* Header styles */
+.masthead {
+    width: 100%;
+    min-height: 300px;
+    background-image: url("../../static/blog/images/world.jpg");
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    color: var(--bg-color);
+    padding: 20px;
+}
+
+.site-heading {
+    text-align: center;
+}
+
+.site-heading h1 {
+    margin: 0;
+}
+
+.site-heading .subheading {
+    display: block;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.nav-tabs {
+    margin-top: 30px !important;
+    border-bottom: 1px solid #ddd !important;
+}
+
+/* Post styles */
+.post-preview {
+    margin-bottom: 32px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.post-preview h2 {
+    margin-bottom: 8px;
+}
+
+.post-preview h3 {
+    margin-top: 0;
+    font-style: italic;
+}
+
+.post-meta {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Pager styles */
+.d-flex.justify-content-end.mb-4 {
+    margin-top: 32px;
+}
+
+.container-fluid {
+    width: 100%;
+    padding: 0 40px;
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.hr.my-4 {
+    border-top: 1px solid #eee;
+}

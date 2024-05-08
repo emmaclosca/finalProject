@@ -12,6 +12,7 @@
 :root {
     /* --container-color: #0B128B; */
     --second-color: #4046BC;
+    --third-color: #0B128B;
     --text-color: #fff;
     --bg-color: #fff;
 }
@@ -28,32 +29,20 @@ nav {
 
 .navbar-brand {
     font-size: 24px;
-    font-weight: 600;
-    color: var(--second-color);
-}
-
-.navbar-brand span {
+    font-weight: 400;
     color: var(--second-color);
 }
 
 .navbar-nav .nav-link {
-    color: var(--text-color);
-}
-
-.navbar-nav .nav-link:hover {
     color: var(--second-color);
 }
 
-.navbar-toggler {
-    border: none;
+.navbar-nav .nav-link:hover {
+    color: var(--third-color);
 }
 
-.navbar-toggler-icon {
-    background-color: var(--text-color);
-}
 
-@media (max-width: 991.98px) {
-    .navbar-nav {
-        margin-top: 10px;
-    }
-}
+
+
+
+
