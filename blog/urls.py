@@ -8,7 +8,6 @@ from .views import (
 
 urlpatterns = [
     path("index/", IndexView.as_view(), name="index"),
-    path("homepage/", views.homepage, name="homepage"),
     # Blog URLs
     path("blog/<int:pk>/", BlogView.as_view(), name="blogContent"), 
     path("addPost/", AddPost.as_view(), name="addPost"),
@@ -30,7 +29,7 @@ urlpatterns = [
     path("palestine/", views.palestine, name="palestine"),
     path("zimbabwe/", views.zimbabwe, name="zimbabwe"),
     # Like and comment URLs 
-      path("like/<int:pk>", LikeView, name="likePosts"),
+    path("like/<int:pk>", LikeView, name="likePosts"),
     path("blog/<int:pk>/addComment/", AddComment.as_view(), name="addComment"),
     # Profile and settings URLs
     path("editProfile/", EditProfile.as_view(), name="editProfile"),

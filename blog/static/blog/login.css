@@ -68,7 +68,7 @@ h3 {
 }
 
 body {
-    background-image: url("../../static/blog/images/userAuthBg.jpg");
+    background-image: url("../../static/blog/images/world.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed; /* Ensures the background image remains fixed as the user scrolls */

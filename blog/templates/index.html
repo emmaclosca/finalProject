@@ -1,49 +1,100 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/index.css' %}">
+
+<!-- Header -->
 <header class="masthead">
-  <div class="container position-relative px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7">
-        <div class="site-heading">
-          <h1>Clean Blog</h1>
-          <span class="subheading">A Blog Theme by Start Bootstrap</span>
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-9 col-xl-7">
+                <div class="site-heading">
+                    <h1>The Unseen Blog</h1>
+                    <span class="subheading">Explore your thoughts</span>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </header>
 
+<!-- Main content -->
 <div class="container px-4 px-lg-5">
-  <div class="row gx-4 gx-lg-5 justify-content-center">
-    <div class="col-md-10 col-lg-8 col-xl-7">
-      
-      {% for post in blog_post %}
-      <div class="post-preview">
-        <a href="{% url 'blogContent' post.pk %}">
-          <h2 class="post-title">{{ post.title }}</h2>
-          {% if post.subtitle %}
-          <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-          {% endif %}
-        </a>
-        <p class="post-meta">Posted by 
-          {% if post.author %}
-          {{ post.author.username }}
-          {% else %}
-          Start Bootstrap
-          {% endif %}
-          on {{ post.date|date:'F d, Y' }}
-        </p>
-      </div>
-      <hr class="my-4">
-      {% endfor %}
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <!-- Blog Posts Container -->
+        <div class="col-lg-8">
+            <!-- Blog Posts -->
+            {% for post in blog_post %}
+            <div class="post-preview">
+                <a href="{% url 'blogContent' post.pk %}">
+                    <h2 class="post-title">{{ post.title }}</h2>
+                    {% if post.subtitle %}
+                    <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+                    {% endif %}
+                </a>
+                <p class="post-meta">Posted by 
+                    {% if post.author %}
+                    {{ post.author.username }}
+                    {% else %}
+                    Start Bootstrap
+                    {% endif %}
+                    on {{ post.date|date:'F d, Y' }}
+                </p>
+            </div>
+            <hr class="my-4">
+            {% endfor %}
 
-      <!-- Pager -->
-      <div class="d-flex justify-content-end mb-4">
-        <a class="btn btn-primary text-uppercase" href="{% url 'addPost' %}">Add Post</a>
-      </div>
+            <!-- Pager -->
+            <div class="d-flex justify-content-end mb-4">
+              <a class="btn btn-primary text-uppercase" href="{% url 'addPost' %}">Add Post</a>
+            </div>
+        </div>
 
+        <!-- Weather Container -->
+        <div class="col-lg-4">
+            <div class="container weather-app">
+                <div class="card">
+                    <!-- Weather App Integration -->
+                    <link rel="stylesheet" type="text/css" href="{% static 'blog/weatherApp.css' %}">
+                    <div class="search-box">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input type="text" placeholder="Enter your location">
+                        <button class="fa-solid fa-magnifying-glass"></button>
+                    </div>
+
+                    <div class="not-found">
+                        <img src="{% static 'blog/images/404.png' %}">
+                        <p>Oops! Invalid location :/</p>
+                    </div>
+
+                    <div class="weather-box" style="display: none;">
+                        <img src="" id="weatherIcon">
+                        <p class="temperature" id="temperature"></p>
+                        <p class="description" id="weatherDescription"></p>
+                    </div>
+
+                    <div class="weather-details" style="display: none;">
+                        <div class="humidity">
+                            <i class="fa-solid fa-water"></i>
+                            <div class="text">
+                                <span id="humidity"></span>
+                                <p>Humidity</p>
+                            </div>
+                        </div>
+                        <div class="wind">
+                            <i class="fa-solid fa-wind"></i>
+                            <div class="text">
+                                <span id="windSpeed"></span>
+                                <p> Wind Speed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
+<script src="https://kit.fontawesome.com/7c8801c017.js" crossorigin="anonymous"></script>
+<script src="{% static 'blog/weatherApp.js' %}"></script>
 {% endblock %}

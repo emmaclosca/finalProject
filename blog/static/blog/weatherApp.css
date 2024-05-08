@@ -1,14 +1,16 @@
+/* weatherapp.css */
+
 .card {
     position: relative;
-    width: 400px;
-    background: #fff;
-    padding: 28px 32px;
+    width: 300px;
+    background: var(--bg-color);
+    padding: 20px;
     overflow: hidden;
-    border-radius: 18px;
+    border-radius: 10px;
     font-family: 'Roboto', sans-serif;
     transition: 0.6s ease-out;
     margin: auto;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .search-box {
@@ -17,23 +19,23 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .search-box input {
     color: #06283D;
     width: calc(100% - 40px);
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
-    padding: 10px;
+    padding: 8px;
     border: none;
     border-bottom: 1px solid #ccc;
-    outline: none; /* Remove the pink border when focused */
+    outline: none;
 }
 
 .search-box input::placeholder {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
     color: #06283D;
     text-transform: capitalize;
@@ -41,25 +43,25 @@
 
 .search-box button {
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     color: #06283D;
     background: #dff6ff;
     border-radius: 50%;
-    font-size: 22px;
+    font-size: 16px;
     transition: 0.4s ease;
     border: none;
-    outline: none; /* Remove the blue border when focused */
+    outline: none;
 }
 
 .search-box button:hover {
-    color: #fff;
+    color: var(--bg-color);
     background: #06283D;
 }
 
 .search-box i {
     color: #06283D;
-    font-size: 28px;
+    font-size: 20px;
 }
 
 .weather-box {
@@ -67,37 +69,39 @@
 }
 
 .weather-box img {
-    width: 60%;
-    margin-top: 30px;
+    width: 60px;
+    margin-top: 20px;
 }
 
 .weather-box .temperature {
     position: relative;
     color: #06283D;
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: 800;
-    margin-top: 30px;
-    margin-left: -16px;
+    margin-top: 20px;
+    margin-left: -10px;
+    text-align: center;
 }
 
 .weather-box .temperature span {
     position: absolute;
-    margin-left: 4px;
-    font-size: 1.5rem;
+    margin-left: 2px;
+    font-size: 1.2rem;
 }
 
 .weather-box .description {
     color: #06283D;
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 500;
     text-transform: capitalize;
+    text-align: center;
 }
 
 .weather-details {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .weather-details .humidity,
@@ -105,56 +109,55 @@
     display: flex;
     align-items: center;
     width: 50%;
-    height: 100px;
+    height: 80px;
 }
 
 .weather-details .humidity {
-    padding-left: 20px;
+    padding-left: 10px;
     justify-content: flex-start;
 }
 
 .weather-details .wind {
-    padding-right: 20px;
+    padding-right: 10px;
     justify-content: flex-end;
 }
 
 .weather-details i {
     color: #06283D;
-    font-size: 26px;
-    margin-right: 10px;
-    margin-top: 6px;
+    font-size: 20px;
+    margin-right: 6px;
+    margin-top: 4px;
 }
 
 .weather-details span {
     color: #06283D;
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 500;
 }
 
 .weather-details p {
     color: #06283D;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
 }
-
 
 .not-found {
     width: 100%;
     text-align: center;
-    margin-top: 50px;
-    opacity: 1; /* Change opacity to 0 to hide the element initially */
-    display: none; /* Change display property to none to hide the element initially */
+    margin-top: 30px;
+    opacity: 1;
+    display: none;
 }
 
 .not-found img {
-    width: 70%;
+    width: 50%;
 }
 
 .not-found p {
     color: #06283D;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
-    margin-top: 12px;
+    margin-top: 8px;
 }
 
 @keyframes fadeIn {
@@ -163,6 +166,3 @@
         opacity: 1;
     }
 }
-
-
-

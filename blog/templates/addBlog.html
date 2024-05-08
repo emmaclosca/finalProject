@@ -1,6 +1,6 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends "base.html" %}
 
+{% block content %}
 {% if not request.user.username == "guest" %}
 <h1>Add Blog Post</h1>
 <hr>
@@ -11,7 +11,7 @@
          <button>Post</button>
       </form>
    </div>
-   {% else %}
+{% else %}
    No permission to view this page.
-   {% endif %}
+{% endif %}
 {% endblock %}
