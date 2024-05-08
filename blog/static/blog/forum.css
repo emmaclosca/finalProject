@@ -37,6 +37,7 @@ body {
 
 /* Post styles */
 .post-preview {
+    width: 100%; /* Ensure post content stretches to 100% width */
     margin-bottom: 32px;
     background-color: #f8f9fa;
     padding: 15px;
@@ -57,14 +58,12 @@ body {
     color: #6c757d;
 }
 
-/* Pager styles */
-.d-flex.justify-content-end.mb-4 {
-    margin-top: 32px;
-}
-
-.container-fluid {
-    width: 100%;
-    padding: 0 40px;
+.container {
+    width: 100%; /* Stretch container to full width */
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .row {

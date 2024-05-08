@@ -1,51 +1,63 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
-<h1>{{ post.title }}</h1>
-<small>By: {{ post.author.username }} - {{ post.date }} - {{ total_likes }} Likes</small>
-  
-{% if request.user == post.author and not request.user.username == "guest" %}
-    <small>
-      <a href="{% url 'updatePost' post.pk %}">Edit</a>
-      <a href="{% url 'deletePost' post.pk %}">Delete</a>
-    </small>
-{% endif %}
-<hr>
-<br>
-{{ post.content|safe }}
-<hr>
-<form action="{% url 'likePosts' post.pk %}" method="POST">
-  {% csrf_token %}
-  {% if not request.user.username == "guest" %}
-    {% if liked %}
-      <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm">Unlike</button> 
-    {% else %}
-      <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm">Like</button>  
-    {% endif %}
-  {% else %}
-    <small><a href="{% url 'login' %}">Login</a> to like.</small>
-  {% endif %}
-</form>
+<link rel="stylesheet" type="text/css" href="{% static 'blog/detail.css' %}">
 
-<br>
-<hr>
-
-<h2>Comments...</h2>
-{% if post.comments.all %}
-  {% for comment in post.comments.all %}
-    <strong>{{ comment.author.username }} - {{ comment.date }}</strong>
-    <br>
-    {{ comment.content }}
-    <br><br>
-  {% endfor %}
-{% else %}
-  <p>No comments...</p>
-{% endif %}
-<br>
-{% if not request.user.username == "guest" %}
-  <a href="{% url 'addComment' post.pk %}" class="btn btn-primary btn-sm">Add a comment</a>
-{% else %}
-  <small><a href="{% url 'login' %}">Login</a> to add a comment.</small>
-{% endif %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>{{ post.title }}</h1>
+      <p class="text-muted">By: {{ post.author.username }} - {{ post.date }} - {{ total_likes }} Likes</p>
+      
+      {% if request.user == post.author and not request.user.username == "guest" %}
+        <div class="mb-3">
+          <a href="{% url 'updatePost' post.pk %}" class="btn btn-sm btn-info me-2">Edit</a>
+          <a href="{% url 'deletePost' post.pk %}" class="btn btn-sm btn-danger">Delete</a>
+        </div>
+      {% endif %}
+      
+      <hr>
+      
+      <div>{{ post.content|safe }}</div>
+      
+      <hr>
+      
+      <form action="{% url 'likePosts' post.pk %}" method="POST">
+        {% csrf_token %}
+        {% if not request.user.username == "guest" %}
+          <div class="mb-3">
+            {% if liked %}
+              <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-sm btn-danger me-2">Unlike</button> 
+            {% else %}
+              <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-sm btn-primary me-2">Like</button>  
+            {% endif %}
+            <a href="{% url 'addComment' post.pk %}" class="btn btn-sm btn-primary">Add a comment</a>
+          </div>
+        {% else %}
+          <p class="text-muted"><a href="{% url 'login' %}">Login</a> to like.</p>
+        {% endif %}
+      </form>
+      
+      <hr>
+      
+      {% if post.comments.all %}
+        {% for comment in post.comments.all %}
+          <div class="mb-3">
+            <p><strong>{{ comment.author.username }} - {{ comment.date }}</strong></p>
+            <p>{{ comment.content }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No comments...</p>
+      {% endif %}
+      
+      {% if not request.user.username == "guest" %}
+      {% else %}
+        <p class="text-muted"><a href="{% url 'login' %}">Login</a> to add a comment.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
 
 {% endblock %}

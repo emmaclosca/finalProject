@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-*{
+* {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
@@ -11,6 +11,7 @@
 
 :root {
     /* --container-color: #0B128B; */
+    --first-color: #B8BAE2;
     --second-color: #4046BC;
     --third-color: #0B128B;
     --text-color: #fff;
@@ -41,8 +42,26 @@ nav {
     color: var(--third-color);
 }
 
+/* Define your custom color */
+.custom-navbar-bg {
+    background-color: var(--first-color);
+}
 
+/* Map styles */
+#map {
+    height: 550px; 
+}
 
+.map-heading {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-
+.map-heading h1 {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--third-color);
+    margin-bottom: 10px;
+    padding-top: 20px;
+}
 
