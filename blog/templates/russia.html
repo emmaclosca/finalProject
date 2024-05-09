@@ -1,44 +1,69 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<html>
-   <body>
-      {% if not has_access %}
-      <!-- this is the modal which pops up when the user doesn't have access -->
-      <div class="modal fade" id="accessDeniedModal" tabindex="-1" role="dialog" aria-labelledby="accessDeniedModalLabel" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered" role="document">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'blog/countries.css' %}">
+    <title>Article on Russia</title>
+</head>
+<body>
+    {% if not has_access %}
+    <!-- Access Denied Modal -->
+    <div class="modal fade" id="accessDeniedModal" tabindex="-1" role="dialog" aria-labelledby="accessDeniedModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="accessDeniedModalLabel">Access Denied</h5>
-                  </button>
-               </div>
-               <div class="modal-body">
-                  Members only content, please sign up <a href="{% url 'signUp' %}">here</a> to view this page.
-               </div>
-               <div class="modal-footer">
-               </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accessDeniedModalLabel">Access Denied</h5>
+                </div>
+                <div class="modal-body">
+                    Members only content, please sign up <a href="{% url 'signUp' %}">here</a to view this page.>
+                </div>
+                <div class="modal-footer">
+                </div>
             </div>
-         </div>
-      </div>
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-      <script>
-         $(document).ready(function() {
-           $('#accessDeniedModal').modal({
-             backdrop: 'static',  // prevents guests from clicking outside the modal to close it
-             keyboard: false      // prevents guests using the keyboard to close the modal
-           });
-           $('#accessDeniedModal').modal('show'); // this triggers the modal
+        </div>
+    </div>
+    {% endif %}
+    <div class="container">
+        <header class="page-header">
+            <h1>{{ content.0.title }}</h1>
+            <h5>By: {{ content.0.author }}</h5>
+        </header>
+        <div class="row">
+            <div class="col-lg-8">
+                <p>{{ content.0.description }}</p>
+            </div>
+            
+            <div class="col-lg-4">
+                <img src="data:image/png;base64,{{ image_base64 }}" alt="Population Chart" class="img-fluid population-chart">
+                <h6>Population of Russia</h6>
+            </div>
+        </div>
+        <!-- Return Button -->
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="{% url 'news' %}" class="btn btn-primary">Return to News</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+       $(document).ready(function() {
+         $('#accessDeniedModal').modal({
+           backdrop: 'static',
+           keyboard: false
          });
-      </script>
-      {% endif %}
-      <!-- Display content regardless of access -->
-      <p>Population of Russia</p>
-      <img src="data:image/png;base64,{{ image_base64 }}" alt="Population Chart" width=500 height=auto />
-      <!-- Display news content -->
-      <h2>{{ content.0.title }}</h2>
-      <h5>{{ content.0.author }}</h5>
-      <p>{{ content.0.description }}</p>
-   </body>
+         $('#accessDeniedModal').modal('show');
+       });
+    </script>
+</body>
 </html>
 {% endblock %}

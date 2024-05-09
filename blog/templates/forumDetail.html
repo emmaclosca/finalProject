@@ -12,8 +12,9 @@
       
       {% if request.user == post.author and not request.user.username == "guest" %}
         <div class="mb-3">
-          <a href="{% url 'updatePost' post.pk %}" class="btn btn-sm btn-info me-2">Edit</a>
-          <a href="{% url 'deletePost' post.pk %}" class="btn btn-sm btn-danger">Delete</a>
+          <a href="{% url 'updateForumPost' post.pk %}" class="btn btn-sm btn-info me-2">Edit</a>
+          <!-- Trigger modal instead of linking directly -->
+          <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
         </div>
       {% endif %}
       
@@ -39,6 +40,8 @@
         {% endif %}
       </form>
       
+      <a href="{% url 'index' %}" class="btn btn-primary">Return</a>
+
       <hr>
       
       {% if post.comments.all %}
@@ -56,6 +59,28 @@
       {% else %}
         <p class="text-muted"><a href="{% url 'login' %}">Login</a> to add a comment.</p>
       {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Deleting a Post -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this post?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form method="POST" action="{% url 'deleteForumPost' post.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

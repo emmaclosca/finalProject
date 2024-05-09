@@ -441,17 +441,3 @@ class EditProfile(UpdateView):
 def logOut(request):
     logout(request)
     return redirect("logIn")
-
-
-# def news(request):
-#     api_url = 'https://api.api-ninjas.com/v1/country?name=Russia'
-#     headers = {'X-Api-Key': 'ZLPOykr1PiSkaMTpZxUYPg==1qes8BJwWRpO0GQl'}
-
-#     response = requests.get(api_url, headers=headers)
-
-#     if response.status_code == requests.codes.ok:
-#         data = response.json()
-#         population = data[0]['population']
-#         return render(request, 'news.html', {'population': population})
-#     else:
-#         return JsonResponse({'error': 'Failed to fetch data'}, status=500)
