@@ -50,8 +50,7 @@ def index(request):
     if request.user.is_authenticated:
         username = (
             request.user.username
-        )  # this takes the logged in username and used for the "Hello, username" in the navbar
-        # print(request.user.groups)
+        )  
         return render(
             request,
             "index.html",

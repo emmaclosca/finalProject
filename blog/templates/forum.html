@@ -17,7 +17,7 @@
     </div>
 </header>
 
-<div class="container-fluid px-4 px-lg-5"> 
+<div class="container px-4 px-lg-5"> 
     <div class="row">
         <div class="col-12"> 
             <!-- Tabs for category filtering -->
@@ -28,7 +28,14 @@
                 <li class="nav-item">
                     <button class="nav-link" onclick="filterPosts('educational')">Educational</button>
                 </li>
+                <li class="nav-item">
+                    <div class="d-flex justify-content-end mb-0">
+                        <a class="btn btn-primary text-uppercase" href="{% url 'addForumPost' %}">Add Post</a>
+                    </div>
+                </li>
             </ul>
+            
+          
 
             <!-- Posts Container -->
             <div id="general-posts" class="posts-category">
@@ -55,11 +62,6 @@
                 </div>
                 <hr class="my-4">
                 {% endfor %}
-            </div>
-
-            <!-- Pager -->
-            <div class="d-flex justify-content-start mb-4">
-              <a class="btn btn-primary text-uppercase" href="{% url 'addForumPost' %}">Add Post</a>
             </div>
         </div>
     </div>

@@ -23,6 +23,9 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <!-- Blog Posts Container -->
         <div class="col-lg-8">
+            <div class="d-flex justify-content-end mb-4">
+                <a class="btn btn-primary text-uppercase" href="{% url 'addPost' %}">Add Post</a>
+            </div>
             <!-- Blog Posts -->
             {% for post in blog_post %}
             <div class="post-preview">
@@ -43,11 +46,6 @@
             </div>
             <hr class="my-4">
             {% endfor %}
-
-            <!-- Pager -->
-            <div class="d-flex justify-content-end mb-4">
-              <a class="btn btn-primary text-uppercase" href="{% url 'addPost' %}">Add Post</a>
-            </div>
         </div>
 
         <!-- Weather Container -->

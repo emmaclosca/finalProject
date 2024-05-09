@@ -2,86 +2,83 @@
 {% load static %}
 {% block content %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'blog/detail.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'blog/detail.css' %}">
+    <title>Blog Detail</title>
+</head>
+<body>
+<div class="container mt-2">
+    <header class="page-header">
+        <h1>{{ post.title }}</h1>
+    </header>
+    <p class="text-muted">By: {{ post.author.username }} - {{ post.date }} - {{ total_likes }} Likes</p>
+    {% if request.user == post.author and not request.user.username == "guest" %}
+    <div class="mb-3">
+        <a href="{% url 'updatePost' post.pk %}" class="btn btn-sm btn-info me-2">Edit</a>
+        <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+    </div>
+    {% endif %}
 
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-8">
-      <h1>{{ post.title }}</h1>
-      <p class="text-muted">By: {{ post.author.username }} - {{ post.date }} - {{ total_likes }} Likes</p>
-      
-      {% if request.user == post.author and not request.user.username == "guest" %}
-        <div class="mb-3">
-          <a href="{% url 'updatePost' post.pk %}" class="btn btn-sm btn-info me-2">Edit</a>
-          <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
-        </div>
-      {% endif %}
-      
-      <hr>
-      
-      <div>{{ post.content|safe }}</div>
-      
-      <hr>
-      
-      <form action="{% url 'likePosts' post.pk %}" method="POST">
+    <div>{{ post.content|safe }}</div>
+
+    <hr>
+
+    <form action="{% url 'likePosts' post.pk %}" method="POST">
         {% csrf_token %}
         {% if not request.user.username == "guest" %}
-          <div class="mb-3">
+        <div class="mb-3">
             {% if liked %}
-              <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-sm btn-danger me-2">Unlike</button> 
+            <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-sm btn-danger me-2">Unlike</button> 
             {% else %}
-              <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-sm btn-primary me-2">Like</button>  
+            <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-sm btn-primary me-2">Like</button>  
             {% endif %}
             <a href="{% url 'addComment' post.pk %}" class="btn btn-sm btn-primary">Add a comment</a>
-          </div>
+        </div>
         {% else %}
-          <p class="text-muted"><a href="{% url 'login' %}">Login</a> to like.</p>
+        <p class="text-muted"><a href="{% url 'login' %}">Login</a> to like.</p>
         {% endif %}
-      </form>
-      
-      <a href="{% url 'index' %}" class="btn btn-primary">Return</a>
-   
-      <hr>
-      
-      {% if post.comments.all %}
-        {% for comment in post.comments.all %}
-          <div class="mb-3">
-            <p><strong>{{ comment.author.username }} - {{ comment.date }}</strong></p>
-            <p>{{ comment.content }}</p>
-          </div>
-        {% endfor %}
-      {% else %}
-        <p>No comments...</p>
-      {% endif %}
-      
-      {% if not request.user.username == "guest" %}
-      {% else %}
-        <p class="text-muted"><a href="{% url 'login' %}">Login</a to add a comment.</p>
-      {% endif %}
+    </form>
+
+    <a href="{% url 'index' %}" class="btn btn-primary">Return</a>
+
+    <hr>
+
+    {% if post.comments.all %}
+    {% for comment in post.comments.all %}
+    <div class="mb-3">
+        <p><strong>{{ comment.author.username }} - {{ comment.date }}</strong></p>
+        <p>{{ comment.content }}</p>
     </div>
-  </div>
+    {% endfor %}
+    {% else %}
+    <p>No comments...</p>
+    {% endif %}
 </div>
 
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this post?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <form method="POST" action="{% url 'deletePost' post.pk %}">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-      </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this post?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form method="POST" action="{% url 'deletePost' post.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
+</body>
+</html>
 {% endblock %}

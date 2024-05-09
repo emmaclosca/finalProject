@@ -10,10 +10,9 @@
 }
 
 :root {
-    /* --container-color: #0B128B; */
     --first-color: #B8BAE2;
     --second-color: #4046BC;
-    --third-color: #0B128B;
+    --third-color: blue;
     --text-color: #fff;
     --bg-color: #fff;
 }
@@ -29,22 +28,22 @@ nav {
 }
 
 .navbar-brand {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 400;
-    color: var(--second-color);
+    color: var(--text-color);
 }
 
 .navbar-nav .nav-link {
-    color: var(--second-color);
+    color: var(--text-color);
 }
 
 .navbar-nav .nav-link:hover {
-    color: var(--third-color);
+    color: var(--first-color);
 }
 
 /* Define your custom color */
 .custom-navbar-bg {
-    background-color: var(--first-color);
+    background-color: #007bff;
 }
 
 /* Map styles */
