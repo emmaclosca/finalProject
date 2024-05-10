@@ -23,15 +23,16 @@
 }
 
 .search-box input {
-    color: #06283D;
+    color: #06283D; /* Dark blue color for text */
     width: calc(100% - 40px);
     font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
     padding: 8px;
     border: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ccc; /* You might want to change this as well */
     outline: none;
+    background: var(--bg-color); /* Make input background same as card */
 }
 
 .search-box input::placeholder {
@@ -46,7 +47,7 @@
     width: 40px;
     height: 40px;
     color: #06283D;
-    background: #dff6ff;
+    background: #dff6ff; /* Light blue background, consider changing if needed */
     border-radius: 50%;
     font-size: 16px;
     transition: 0.4s ease;
@@ -122,22 +123,11 @@
     justify-content: flex-end;
 }
 
-.weather-details i {
-    color: #06283D;
-    font-size: 20px;
-    margin-right: 6px;
-    margin-top: 4px;
-}
-
-.weather-details span {
+weather-details i,
+weather-details span,
+weather-details p {
     color: #06283D;
     font-size: 16px;
-    font-weight: 500;
-}
-
-.weather-details p {
-    color: #06283D;
-    font-size: 12px;
     font-weight: 500;
 }
 

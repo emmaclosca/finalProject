@@ -1,11 +1,11 @@
 body {
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .page-header {
-    background-color: #007bff;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--background-color);
     padding: 20px 0;
     text-align: center;
     margin-bottom: 20px;
@@ -17,7 +17,7 @@ h1 {
 }
 
 h5 {
-    color: white;
+    color: var(--background-color);
     font-size: 19px;
     font-style: italic;
     font-weight: 400;
@@ -35,22 +35,22 @@ h6 {
 }
 
 img.img-fluid.population-chart {
-    width: 100%;  /* Makes the graph take the full width of its container for better readability */
+    width: 100%;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     margin-top: 20px;
 }
 
 .container {
-    max-width: 95%; /* Stretch the container more */
-    background: white;
+    max-width: 95%;
+    background: var(--background-color);
     padding: 20px;
-    margin-top: 30px; /* Adds padding to top, separating from the navbar */
+    margin-top: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     margin-bottom: 30px;
 }
 
 .modal-title {
-    color: #333;
+    color: red;
 }

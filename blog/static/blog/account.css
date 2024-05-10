@@ -3,6 +3,7 @@
     margin: 20px;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+    background-color: var(--background-color);
 }
 
 .success-message {
@@ -17,6 +18,11 @@
 
 h1 {
     padding: 20px;
+    color: var(--text-color);
+}
 
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 

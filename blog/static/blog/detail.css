@@ -1,6 +1,6 @@
 .page-header {
-    background-color: #007bff;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--background-color);
     padding: 20px 0;
     text-align: center;
     margin-bottom: 20px;
@@ -17,7 +17,7 @@ h1 {
 }
 
 .container {
-    background: white;
+    background: var(--background-color);
     max-width: 95%;
     padding: 20px;
     margin-top: 30px;
@@ -27,25 +27,17 @@ h1 {
 }
 
 .btn-primary, .btn-danger, .btn-info {
-    color: white;
+    color: var(--background-color);
     border: none;
     margin-bottom: 10px;
 }
 
-.btn-primary {
-    background-color: #007bff;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-}
-
 .btn-info {
-    background-color: #17a2b8;
+    background-color: var(--secondary-color);
 }
 
 hr {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--secondary-color);
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -67,8 +59,7 @@ textarea.form-control {
 }
 
 .text-link {
-    color: 007bff;
-    text-decoration: none;
+    color: var(--accent-color);
     cursor: pointer;
     display: inline-block;
     padding-top: 10px;
@@ -76,8 +67,7 @@ textarea.form-control {
 }
 
 .text-link:hover {
-    text-decoration: none;
-    color: #0a4c92;
+    color: var(--primary-color);
 }
 
 .btn {
@@ -89,19 +79,11 @@ textarea.form-control {
 
 .btn i {
     font-size: 18px; 
+    color: var(--background-color);
 }
-
-
-.btn-primary i { color: white; }
-.btn-info i { color: white; }
-.btn-danger i { color: white; }
 
 .modal-footer {
-    display: flex;
-    align-items: center; /* Add this line to vertically align buttons */
-}
-
-.modal-footer .btn {
+    align-items: center;
+    justify-content: space-between;
     margin: 0; /* Remove margin from buttons to ensure they are aligned */
 }
-

@@ -26,8 +26,10 @@
             {% if request.user.is_authenticated %}
                 {% if not request.user.username == "guest" %}
                     <div class="d-flex justify-content-end mb-4">
-                        <a class="btn btn-primary text-uppercase" href="{% url 'addPost' %}"><i class="fas fa-plus-circle mr-2"></i></a>
-                    </div>
+                        <a class="custom-link" href="{% url 'addPost' %}">
+                            Create Post <i class="fas fa-plus-circle"></i></a>
+                        </div>
+                    <hr>
                 {% endif %}
             {% endif %}
             <!-- Blog Posts -->
