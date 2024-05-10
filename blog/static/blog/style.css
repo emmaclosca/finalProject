@@ -35,6 +35,11 @@ nav {
 
 .navbar-nav .nav-link {
     color: var(--background-color);
+    padding: 10px 15px; /* Adjust the values as needed */
+}
+
+.navbar-brand:hover {
+    color: var(--background-color); /* Maintain the same color when hovered over */
 }
 
 .navbar-nav .nav-link:hover {

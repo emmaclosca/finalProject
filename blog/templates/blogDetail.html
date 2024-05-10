@@ -15,7 +15,7 @@
         <h1>{{ post.title }}</h1>
     </header>
     <p class="text-muted">By: {{ post.author.username }} - {{ post.date }} - {{ total_likes }} Likes</p>
-    
+
     {% if request.user == post.author and not request.user.username == "guest" %}
     <div class="mb-3">
         <a href="{% url 'updatePost' post.pk %}" class="btn btn-info"><i class="fas fa-edit"></i></a>
@@ -23,10 +23,9 @@
     </div>
     {% endif %}
 
-    <div>{{ post.content|safe }}</div>
+    <div>{{ post.content|linebreaks|safe }}</div>
 
     <a href="{% url 'index' %}" class="text-link">Return</a>
-
 
     <form action="{% url 'likePosts' post.pk %}" method="POST">
         {% csrf_token %}
@@ -43,7 +42,6 @@
         <p class="text-muted"><a href="{% url 'login' %}">Login</a> to interact with this post.</p>
         {% endif %}
     </form>
-    
 
     <!-- Collapsible Comment Form -->
     <div class="collapse" id="commentFormCollapse">
@@ -55,7 +53,6 @@
             </form>
         </div>
     </div>
-
 
     <hr>
 

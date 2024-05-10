@@ -41,14 +41,8 @@
                             <h3 class="post-subtitle">{{ post.subtitle }}</h3>
                         {% endif %}
                     </a>
-                    <p class="post-meta">Posted by 
-                        {% if post.author %}
-                            {{ post.author.username }}
-                        {% else %}
-                            Start Bootstrap
-                        {% endif %}
-                        on {{ post.date|date:'F d, Y' }}
-                    </p>
+                    <p class="post-meta">Posted by {{ post.author.username }} on {{ post.date|date:'F d, Y' }}</p>
+                    <p>{{ post.content|slice:"100"|safe }}</p>
                 </div>
                 <hr class="my-4">
             {% endfor %}
