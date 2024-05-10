@@ -55,7 +55,7 @@ textarea.form-control {
 }
 
 .collapse {
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 .text-link {
@@ -67,7 +67,8 @@ textarea.form-control {
 }
 
 .text-link:hover {
-    color: var(--primary-color);
+    text-decoration: none;
+    color: var(--accent-color);
 }
 
 .btn {
@@ -83,7 +84,14 @@ textarea.form-control {
 }
 
 .modal-footer {
+    display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin: 0; /* Remove margin from buttons to ensure they are aligned */
+    margin: 0; 
 }
+
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    min-height: 70%;
+}
+

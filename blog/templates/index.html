@@ -22,7 +22,7 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <!-- Blog Posts Container -->
-        <div class="col-lg-8">
+        <div class="posts col-lg-8">
             {% if request.user.is_authenticated %}
                 {% if not request.user.username == "guest" %}
                     <div class="d-flex justify-content-end mb-4">
@@ -42,14 +42,14 @@
                         {% endif %}
                     </a>
                     <p class="post-meta">Posted by {{ post.author.username }} on {{ post.date|date:'F d, Y' }}</p>
-                    <p>{{ post.content|slice:"100"|safe }}</p>
+                    <p>{{ post.content|slice:"100"|safe }}....</p>
                 </div>
                 <hr class="my-4">
             {% endfor %}
         </div>
-
+        
         <!-- Weather Container -->
-        <div class="col-lg-4">
+        <div class="weather col-lg-4">
             <div class="container weather-app">
                 <div class="card">
                     <!-- Weather App Integration -->

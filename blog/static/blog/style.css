@@ -17,10 +17,6 @@
     --text-color: #333333;
 }
 
-.modal-backdrop {
-    opacity: 0.5;
-}
-
 /* Navbar Styling */
 nav {
     background-color: var(--background-color);
@@ -31,11 +27,16 @@ nav {
     font-size: 20px;
     font-weight: 400;
     color: var(--background-color);
+    padding-left: 25px;
 }
 
 .navbar-nav .nav-link {
     color: var(--background-color);
     padding: 10px 15px; /* Adjust the values as needed */
+}
+
+.nav-item {
+    padding-right: 20px;
 }
 
 .navbar-brand:hover {
@@ -61,7 +62,7 @@ nav {
     margin-bottom: 20px;
 }
 
-.map-heading h1 {
+.map-heading h2 {
     font-size: 32px;
     font-weight: 600;
     color: var(--text-color);

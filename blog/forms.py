@@ -38,17 +38,18 @@ class BlogForm(forms.ModelForm):
 
 class ForumForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(ForumForm, self).__init__(*args, **kwargs)
         self.fields['category'].queryset = Category.objects.all()
+        self.fields['is_blog_post'].initial = False  # Set default value to False
+        self.fields['is_blog_post'].widget = forms.HiddenInput()  # Hide this field from the form
 
     class Meta:
         model = Post
-        fields = ["title", "content", "category", "is_blog_post"]
+        fields = ["title", "content", "category", "is_blog_post"]  # Include 'is_blog_post' to set it internally
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "content": forms.Textarea(attrs={"class": "form-control"}),
             "category": forms.Select(attrs={"class": "form-control"}),
-            "is_blog_post": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
 

@@ -57,7 +57,7 @@
 
 .search-box button:hover {
     color: var(--bg-color);
-    background: #06283D;
+    background: var(--accent-color);
 }
 
 .search-box i {

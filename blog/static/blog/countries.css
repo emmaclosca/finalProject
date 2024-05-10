@@ -4,7 +4,7 @@ body {
 }
 
 .page-header {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     color: var(--background-color);
     padding: 20px 0;
     text-align: center;
@@ -19,9 +19,9 @@ h1 {
 h5 {
     color: var(--background-color);
     font-size: 19px;
-    font-style: italic;
     font-weight: 400;
     padding-top: 5px;
+    font-style: italic;
 }
 
 p {
@@ -51,6 +51,19 @@ img.img-fluid.population-chart {
     margin-bottom: 30px;
 }
 
-.modal-title {
-    color: red;
+.modal-backdrop {
+    opacity: 0.1;
 }
+
+.modal-title {
+    color: red;  /* Set the text color to red */
+    font-weight: bold;  /* Make the text bold */
+    text-align: center;
+}
+
+
+.modal-footer {
+    padding-top: 45px;
+}
+
+

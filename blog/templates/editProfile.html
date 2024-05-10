@@ -4,9 +4,7 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'blog/account.css' %}">
 
-<div id="passwordResetSuccess" class="success-message">Password has been reset successfully!</div>
-
-<h1>Edit your Account</h1>
+<h2>Edit your Account</h2>
 <hr>
 <div class="form-group">
     <form method="POST" id="profileForm">
@@ -27,6 +25,8 @@
             <input type="password" class="form-control" id="id_new_password2" name="new_password2" required>
         </div>
         <div id="passwordMismatch" class="error-message">Passwords do not match.</div>
+        <br>
+        <div id="passwordResetSuccess" class="success-message">Password has been reset successfully!</div>
         <br>
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>

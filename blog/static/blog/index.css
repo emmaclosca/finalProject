@@ -4,43 +4,51 @@ body {
     background-color: var(--background-color);
 }
 
-/* Header styles */
+/* Header */
 .masthead {
     width: 100%;
     min-height: 300px;
-    background-color: var(--primary-color);
-    display: grid;
-    justify-content: center;
-    align-items: center;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
     color: var(--background-color);
 }
 
 .site-heading {
-    text-align: center;
+    text-align: center; 
+    width: 100%; 
 }
 
 .site-heading h1 {
-    margin: 0; /* Reset margins */
+    margin: 0 auto; 
+    font-size: 40px; 
 }
 
 .site-heading .subheading {
-    display: block; /* Display as block element to place it below the h1 */
-    font-size: 20px;
-    margin-top: 5px; /* Add some space between h1 and subheading */
+    display: block; 
+    font-size: 1.5rem;
+    margin-top: 5px; 
+    margin-bottom: 0; 
 }
+
 
 /* Blog post styles */
 .post-preview {
     margin-bottom: 32px;
 }
 
+.post-meta {
+    font-style: italic;
+}
+
 .post-preview h2,
 .post-preview h3 {
     margin-bottom: 8px;
-    font-style: normal; /* Standard style for h3 if needed */
-    transition: color 0.3s ease; /* Smooth transition for color change */
+    font-style: normal; 
+    transition: color 0.3s ease; 
     text-decoration: none;
-    color: var(--accent-color); /* Initial color */
+    color: var(--accent-color); 
 }
 
 .post-preview a {
@@ -57,12 +65,20 @@ body {
     color: var(--secondary-color);
 }
 
+.post-title-forum {
+    padding-top: 15px; /* Adjust this value as needed */
+}
+
 /* Pager styles */
 .d-flex.justify-content-end.mb-4 {
     margin-top: 32px;
 }
 
 .container {
+    padding-top: 20px;
+}
+
+.container-forum {
     padding-top: 20px;
 }
 
@@ -73,27 +89,42 @@ body {
     }
 }
 
-.post-title-forum {
-    padding-top: 15px; /* Adjust this value as needed */
-}
-
 .custom-link {
-    color: #007bff; /* blue color */
-    text-decoration: none; /* remove underline */
-    margin-top: 10px; /* adjust margin to move the link down */
-    display: flex; /* ensure it behaves like a flexbox container */
-    align-items: center; /* align items vertically */
-    justify-content: flex-end; /* align content to the right */
+    color: var(--accent-color); 
+    text-decoration: none; 
+    margin-top: 10px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-end; 
 }
 
 .custom-link i {
-    margin-left: 5px; /* add space between text and icon */
+    margin-left: 5px; 
 }
 
 .custom-link:hover {
-    color: #0056b3; /* darker blue color on hover */
-    text-decoration: none; /* maintain no underline on hover */
+    color: #0056b3; 
+    text-decoration: none; 
 }
+
+.nav-link {
+    color: var(--accent-color);
+}
+
+/* Targeting direct button elements within nav-item class */
+.nav-item button {
+    color: var(--accent-color);  
+    background-color: transparent;  
+    border: none;
+    text-decoration: none; 
+}
+
+.nav-item button:hover {
+    color: darken(var(--accent-color), 10%); /* Darkening the color on hover */
+    background-color: transparent;  /* Keeping background transparent on hover */
+}
+
+
 
 
 

@@ -34,16 +34,22 @@ matplotlib.use("agg")
 
 
 def LikeView(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post = get_object_or_404(Post, id=pk)  # Using pk directly for clarity
     liked = False
+
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
         liked = False
-    else: 
+    else:
         post.likes.add(request.user)
         liked = True
-    
-    return HttpResponseRedirect(reverse('blogContent', args=[str(pk)]))
+
+    # Redirect to the appropriate detail view based on the type of the post
+    if post.is_blog_post:
+        return HttpResponseRedirect(reverse('blogContent', args=[str(pk)]))
+    else:
+        return HttpResponseRedirect(reverse('forumDetail', args=[str(pk)]))  # Assuming you have a 'forumContent' view for forum details
+
 
 
 def index(request):
@@ -184,15 +190,14 @@ class AddForumPost(CreateView):
     model = Post
     form_class = ForumForm
     template_name = "addForum.html"
-
-    def form_valid(self, form):
-        form.instance.date = timezone.now()
-        form.instance.author = self.request.user
-        form.instance.is_blog_post = False  # Ensure this is a forum post
-        return super().form_valid(form)
     
+    def form_valid(self, form):
+        form.instance.author = self.request.user  # Assuming the user must be logged in
+        # form.instance.is_blog_post is automatically handled by the form
+        return super().form_valid(form)
+
     def get_success_url(self):
-        return reverse_lazy('forum')
+        return reverse_lazy('forum') 
     
 
 class UpdateForumPost(UpdateView):

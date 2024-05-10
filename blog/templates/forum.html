@@ -19,7 +19,7 @@
     </div>
 </header>
 
-<div class="container px-4 px-lg-5"> 
+<div class="container-forum px-4 px-lg-5"> 
     <div class="row">
         <div class="col-12"> 
             <!-- Tabs for category filtering -->
@@ -31,6 +31,7 @@
                     <button class="nav-link" onclick="filterPosts('educational')">Educational</button>
                 </li>
                 <li>
+                    <!-- Check if the user is not a guest before showing the "Add Post" button -->
                     {% if request.user.is_authenticated and not request.user.username == "guest" %}
                     <div class="d-flex justify-content mb-0">
                         <a class="nav-link" href="{% url 'addForumPost' %}">
@@ -40,8 +41,6 @@
                     {% endif %}
                 </li>
             </ul>
-            
-             <!-- Check if the user is not a guest before showing the "Add Post" button -->
           
             <!-- Posts Container -->
             <div id="general-posts" class="posts-category">
@@ -51,8 +50,8 @@
                         <h2 class="post-title-forum">{{ post.title }}</h2>
                     </a>
                     <p class="post-meta">Posted by {{ post.author.username }} on {{ post.date|date:'F d, Y' }}</p>
-                    <p>{{ post.content|slice:"100"|safe }}</p>
-                </div>
+                    <p>{{ post.content|slice:"100"|safe }}....</p>
+                    </div>
                 <hr class="my-4">
                 {% endfor %}
             </div>
@@ -61,10 +60,10 @@
                 {% for post in educational_posts %}
                 <div class="post-preview">
                     <a href="{% url 'forumDetail' post.pk %}">
-                        <h2 class="post-title">{{ post.title }}</h2>
+                        <h2 class="post-title-forum">{{ post.title }}</h2>
                     </a>
                     <p class="post-meta">Posted by {{ post.author.username }} on {{ post.date|date:'F d, Y' }}</p>
-                    <p>{{ post.content|slice:"100"|safe }}</p>
+                    <p>{{ post.content|slice:"100"|safe }}....</p>
                 </div>
                 <hr class="my-4">
                 {% endfor %}
