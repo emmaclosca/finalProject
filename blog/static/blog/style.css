@@ -15,6 +15,7 @@
     --third-color: blue;
     --text-color: #fff;
     --bg-color: #fff;
+    
 }
 
 .modal-backdrop {
@@ -59,8 +60,12 @@ nav {
 .map-heading h1 {
     font-size: 32px;
     font-weight: 600;
-    color: var(--third-color);
+    color: black;
     margin-bottom: 10px;
     padding-top: 20px;
+}
+
+body {
+    background-color: var(--bs-light);
 }
 

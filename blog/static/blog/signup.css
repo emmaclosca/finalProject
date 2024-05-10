@@ -52,18 +52,7 @@
     text-decoration: underline;
   }
   
-  body, html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    background-color: white;
-  }
-  
   .wrapper {
-    background-color: var(--third-color);
     border-radius: 12px;
     padding: 80px 40px 50px; 
     border: 2px solid #ccc; 
@@ -73,14 +62,21 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+}
 
-  }
-  
-  .container {
-    padding: 50px 0;
-  }
-  
-  h3 {
-    color: #ccc; 
-  }
+h3 {
+    color: #000000; 
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+  background-color: var(--bs-light);
+  overflow: hidden; /* Prevent scrolling */
+}
   

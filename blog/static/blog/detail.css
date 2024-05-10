@@ -95,3 +95,13 @@ textarea.form-control {
 .btn-primary i { color: white; }
 .btn-info i { color: white; }
 .btn-danger i { color: white; }
+
+.modal-footer {
+    display: flex;
+    align-items: center; /* Add this line to vertically align buttons */
+}
+
+.modal-footer .btn {
+    margin: 0; /* Remove margin from buttons to ensure they are aligned */
+}
+

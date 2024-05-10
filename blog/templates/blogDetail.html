@@ -40,7 +40,7 @@
             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#commentFormCollapse" aria-expanded="false" aria-controls="commentFormCollapse"><i class="fas fa-comment-medical"></i></button>
         </div>
         {% else %}
-        <p class="text-muted"><a href="{% url 'login' %}">Login</a> to like.</p>
+        <p class="text-muted"><a href="{% url 'login' %}">Login</a> to interact with this post.</p>
         {% endif %}
     </form>
     
@@ -85,9 +85,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form method="POST" action="{% url 'deleteForumPost' post.pk %}">
+                <form method="POST" action="{% url 'deletePost' post.pk %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
         </div>
