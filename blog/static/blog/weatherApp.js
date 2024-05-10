@@ -28,36 +28,10 @@ search.addEventListener('click', () => {
             error404.style.display = 'none';
             error404.classList.remove('fadeIn');
 
-            const image = weatherBox.querySelector('img');
             const temperature = weatherBox.querySelector('.temperature');
             const description = weatherBox.querySelector('.description');
             const humidity = weatherDetails.querySelector('.humidity span');
             const wind = weatherDetails.querySelector('.wind span');
-
-            switch (json.current.condition.text) {
-                case 'Clear':
-                    image.src = 'blog/images/clear.png';
-                    break;
-
-                case 'Rain':
-                    image.src = 'blog/images/rain.png';
-                    break;
-
-                case 'Snow':
-                    image.src = 'blog/images/snow.png';
-                    break;
-
-                case 'Clouds':
-                    image.src = 'blog/images/cloud.png';
-                    break;
-
-                case 'Haze':
-                    image.src = 'blog/images/mist.png';
-                    break;
-
-                default:
-                    image.src = '';
-            }
 
             temperature.innerHTML = `${parseInt(json.current.temp_c)}<span>°C</span>`;
             description.innerHTML = `${json.current.condition.text}`;

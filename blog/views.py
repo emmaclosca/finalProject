@@ -109,9 +109,11 @@ class AddComment(CreateView):
     template_name = "addComment.html"
     
     def form_valid(self, form):
+        """If the form is valid, save the associated model."""
         form.instance.author = self.request.user
         form.instance.post = get_object_or_404(Post, pk=self.kwargs.get('pk'))
-        return super().form_valid(form)
+        form.save()
+        return redirect(self.get_success_url())
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -120,6 +122,7 @@ class AddComment(CreateView):
         return context
 
     def get_success_url(self):
+        """Redirect back to the post detail page after a successful comment submission."""
         post_pk = self.kwargs.get('pk')
         return reverse('blogContent', kwargs={'pk': post_pk})
 

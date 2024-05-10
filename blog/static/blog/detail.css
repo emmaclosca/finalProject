@@ -1,5 +1,3 @@
-
-
 .page-header {
     background-color: #007bff;
     color: white;
@@ -10,28 +8,19 @@
 
 h1 {
     margin: 0;
-    font-size: 2.5em;
+    font-size: 40px;
 }
 
 .text-muted {
-    font-size: 0.9em;
+    font-size: 14.5px;
     margin-bottom: 15px;
-}
-
-.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-}
-
-.modal-content {
-    padding: 20px;
 }
 
 .container {
     background: white;
     max-width: 95%;
     padding: 20px;
-    margin-top: 30px;  /* Ensures space from the navbar */
+    margin-top: 30px;
     margin-bottom: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -39,11 +28,12 @@ h1 {
 
 .btn-primary, .btn-danger, .btn-info {
     color: white;
-    border: none; /* Removes default border */
+    border: none;
+    margin-bottom: 10px;
 }
 
 .btn-primary {
-    background-color: #007bff; /* Ensures consistency in button colors */
+    background-color: #007bff;
 }
 
 .btn-danger {
@@ -56,6 +46,52 @@ h1 {
 
 hr {
     border-top: 1px solid #ccc;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+textarea.form-control {
+    margin-bottom: 10px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.collapse {
+    margin-top: 10px;
+}
+
+.text-link {
+    color: 007bff;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.text-link:hover {
+    text-decoration: none;
+    color: #0a4c92;
+}
+
+.btn {
+    padding: 6px 12px; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn i {
+    font-size: 18px; 
 }
 
 
+.btn-primary i { color: white; }
+.btn-info i { color: white; }
+.btn-danger i { color: white; }

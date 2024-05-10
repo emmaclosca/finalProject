@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block content %}
+<script src="https://kit.fontawesome.com/7c8801c017.js" crossorigin="anonymous"></script>
+
 <link rel="stylesheet" type="text/css" href="{% static 'blog/index.css' %}">
 
 <header class="masthead">
@@ -30,13 +32,11 @@
                 </li>
                 <li class="nav-item">
                     <div class="d-flex justify-content-end mb-0">
-                        <a class="btn btn-primary text-uppercase" href="{% url 'addForumPost' %}">Add Post</a>
+                        <a class="btn btn-primary text-uppercase" href="{% url 'addForumPost' %}"><i class="fas fa-plus-circle mr-2"></i></a>
                     </div>
                 </li>
             </ul>
             
-          
-
             <!-- Posts Container -->
             <div id="general-posts" class="posts-category">
                 {% for post in general_posts %}
@@ -44,7 +44,7 @@
                     <a href="{% url 'forumDetail' post.pk %}">
                         <h2 class="post-title">{{ post.title }}</h2>
                     </a>
-                    <p class="post-meta">Posted by {{ post.author.username }} on {{ post.created_at|date:'F d, Y' }}</p>
+                    <p class="post-meta">Posted by {{ post.author.username }} on {{ post.date|date:'F d, Y' }}</p>
                     <p>{{ post.content|slice:"100"|safe }}</p>
                 </div>
                 <hr class="my-4">
@@ -57,7 +57,7 @@
                     <a href="{% url 'forumDetail' post.pk %}">
                         <h2 class="post-title">{{ post.title }}</h2>
                     </a>
-                    <p class="post-meta">Posted by {{ post.author.username }} on {{ post.created_at|date:'F d, Y' }}</p>
+                    <p class="post-meta">Posted by {{ post.author.username }} on {{ post.date|date:'F d, Y' }}</p>
                     <p>{{ post.content|slice:"100"|safe }}</p>
                 </div>
                 <hr class="my-4">
