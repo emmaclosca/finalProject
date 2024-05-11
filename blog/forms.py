@@ -45,7 +45,7 @@ class ForumForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ["title", "content", "category", "is_blog_post"]  # Include 'is_blog_post' to set it internally
+        fields = ["title", "content", "category", "is_blog_post"]  
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "content": forms.Textarea(attrs={"class": "form-control"}),
@@ -79,7 +79,7 @@ class EditProfileForm(UserChangeForm):
     
     class Meta:
         model = User
-        fields = ("username", "email")  # Remove 'password' from the fields list
+        fields = ("username", "email") 
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
