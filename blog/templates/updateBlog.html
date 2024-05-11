@@ -4,6 +4,7 @@
 
 <link rel="stylesheet" href="{% static 'blog/forms.css' %}">
 
+<!-- Guest users cannot update a post -->
 {% if not request.user.username == "guest" %}
 <h2>Edit Blog Post</h2>
 <hr>

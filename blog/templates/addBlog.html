@@ -4,13 +4,14 @@
 
 <link rel="stylesheet" href="{% static 'blog/forms.css' %}">
 
+<!-- Guest users cannot add a post -->
 {% if not request.user.username == "guest" %}
 <h2>Create a Blog Post</h2>
 <hr>
    <div class="form-group">
       <form method="POST">
          {% csrf_token %}
-         {{ form.as_p }}
+         {{ form.as_p }} <!-- Django form -->
          <button type="submit" class="btn btn-primary">Submit</button>
       </form>
    </div>

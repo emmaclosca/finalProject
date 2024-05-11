@@ -32,7 +32,7 @@ nav {
 
 .navbar-nav .nav-link {
     color: var(--background-color);
-    padding: 10px 15px; /* Adjust the values as needed */
+    padding: 10px 15px; 
 }
 
 .nav-item {
@@ -40,14 +40,13 @@ nav {
 }
 
 .navbar-brand:hover {
-    color: var(--background-color); /* Maintain the same color when hovered over */
+    color: var(--background-color); 
 }
 
 .navbar-nav .nav-link:hover {
     color: var(--accent-color);
 }
 
-/* Define your custom color */
 .custom-navbar-bg {
     background-color: var(--primary-color);
 }

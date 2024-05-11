@@ -3,7 +3,6 @@ from io import BytesIO
 from django.urls import reverse, reverse_lazy
 import matplotlib
 
-# import requests
 from http.client import (
     REQUEST_ENTITY_TOO_LARGE,
     REQUEST_HEADER_FIELDS_TOO_LARGE,
@@ -48,18 +47,14 @@ def LikeView(request, pk):
     if post.is_blog_post:
         return HttpResponseRedirect(reverse('blogContent', args=[str(pk)]))
     else:
-        return HttpResponseRedirect(reverse('forumDetail', args=[str(pk)]))  # Assuming you have a 'forumContent' view for forum details
-
+        return HttpResponseRedirect(reverse('forumDetail', args=[str(pk)]))  
 
 
 def index(request):
-    if request.user.is_authenticated:
-        return render(request, "index.html")
-    else:
-        return redirect("signUp")
+    return render(request, "index.html")
     
 
-# blog operations
+# Blog operations
 class IndexView(ListView):
     model = Post
     template_name = "index.html"
@@ -67,7 +62,7 @@ class IndexView(ListView):
     ordering = ["-id"]
 
     def get_queryset(self):
-        return Post.objects.filter(is_blog_post=True).order_by('-id') # only shows the blog posts 
+        return Post.objects.filter(is_blog_post=True).order_by('-id') # Only shows the blog posts 
 
 
 class BlogView(DetailView):
@@ -84,6 +79,7 @@ class BlogView(DetailView):
         liked = False
         if likes.likes.filter(id=self.request.user.id).exists():
             liked = True
+
         # Add total_likes to the context.
         context["total_likes"] = total_likes
         context["liked"] = liked
@@ -108,7 +104,7 @@ class AddComment(CreateView):
     template_name = "addComment.html"
     
     def form_valid(self, form):
-        """If the form is valid, save the associated model."""
+       # Set the user to the comment
         form.instance.author = self.request.user
         form.instance.post = get_object_or_404(Post, pk=self.kwargs.get('pk'))
         form.save()
@@ -121,7 +117,6 @@ class AddComment(CreateView):
         return context
 
     def get_success_url(self):
-        """Redirect back to the post detail page after a successful comment submission."""
         post_pk = self.kwargs.get('pk')
         return reverse('blogContent', kwargs={'pk': post_pk})
 
@@ -138,7 +133,7 @@ class DeletePost(DeleteView):
     success_url = reverse_lazy("index")
 
 
-# forum operations
+# Forum operations
 class ForumView(ListView):
     model = Post
     template_name = "forum.html"
@@ -150,6 +145,7 @@ class ForumView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         # Fetch posts categorized as "General"
         general_category = Category.objects.get(name='General')
         general_posts = Post.objects.filter(category=general_category)
@@ -166,7 +162,8 @@ class ForumView(ListView):
 class ForumDetail(DetailView):
     model = Post
     template_name = "forumDetail.html"
-    
+
+    # Retrieves the content from the forum post selected
     def get_context_data(self, *args, **kwargs):
         context = super(ForumDetail, self).get_context_data(*args, **kwargs)
         post = get_object_or_404(Post, id=self.kwargs['pk'], is_blog_post=False)
@@ -185,8 +182,7 @@ class AddForumPost(CreateView):
     template_name = "addForum.html"
     
     def form_valid(self, form):
-        form.instance.author = self.request.user  # Assuming the user must be logged in
-        # form.instance.is_blog_post is automatically handled by the form
+        form.instance.author = self.request.user  # The user must be logged in to create post
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -211,7 +207,7 @@ class DeleteForumPost(DeleteView):
     success_url = reverse_lazy("forum")
 
 
-# categories
+# Categories
 class GeneralView(ListView):
     model = Post
     template_name = "generalCat.html"
@@ -235,7 +231,7 @@ class EducationalView(ListView):
         # Fetch posts belonging to the Educational category
         return Post.objects.filter(category=educational_category)
    
-
+# User Authentication
 # this @unauthenticated_user is being called from the decorators
 @unauthenticated_user
 def signUp(request):
@@ -268,6 +264,7 @@ def logIn(request):
     return render(request, "logIn.html", {'form': form})
 
 
+# Set the guest user a username and password to continue as a guest
 def guest(request):
     user = authenticate(request, username="guest", password="passwordabc")
     login(request, user)
@@ -275,7 +272,7 @@ def guest(request):
     return redirect("index")
 
 
-# guest users are not allowed to view this page
+# Guest users are not allowed to view this page
 @allowed_users(allowed_roles=["moderators", "members"])
 def russia(request):
     data = {
@@ -289,14 +286,16 @@ def russia(request):
     names = list(data.keys())[::-1]
     values = list(data.values())[::-1]
 
+    # Creates the population plot figure 
     plt.figure()
     plt.plot(names, values, linestyle="dotted")
 
     buf = BytesIO()
-    plt.savefig(buf, format="png", dpi=300)
+    plt.savefig(buf, format="png", dpi=300) # Saves it as a png
     image_base64 = base64.b64encode(buf.getvalue()).decode("utf-8").replace("\n", "")
     buf.close()
-
+     
+    # Retrives the content from the database and displays it 
     all_entries = models.Content.objects.filter(country="Russia")
 
     # Determine whether the user has access based on the decorator
@@ -313,7 +312,7 @@ def russia(request):
     )
 
 
-# guest users are not allowed to view this page
+# Guest users are not allowed to view this page
 @allowed_users(allowed_roles=["moderators", "members"])
 def palestine(request):
     # Determine whether the user has access based on the decorator
@@ -330,15 +329,21 @@ def palestine(request):
     names = list(data.keys())[::-1]
     values = list(data.values())[::-1]
 
+    # Creates the population plot figure 
     plt.figure()
     plt.plot(names, values, linestyle="dotted")
 
     buf = BytesIO()
-    plt.savefig(buf, format="png", dpi=300)
+    plt.savefig(buf, format="png", dpi=300) # Saves it as a png
     image_base64 = base64.b64encode(buf.getvalue()).decode("utf-8").replace("\n", "")
     buf.close()
 
+    # Retrives the content from the database and displays it 
     all_entries = models.Content.objects.filter(country="Sri Lanka")
+
+    # Determine whether the user has access based on the decorator
+    has_access = request.user.groups.filter(name__in=["moderators", "members"]).exists()
+
     return render(
         request,
         "palestine.html",
@@ -350,7 +355,7 @@ def palestine(request):
     )
 
 
-# guest users are not allowed to view this page
+# Guest users are not allowed to view this page
 @allowed_users(allowed_roles=["moderators", "members"])
 def zimbabwe(request):
     # Determine whether the user has access based on the decorator
@@ -367,15 +372,21 @@ def zimbabwe(request):
     names = list(data.keys())[::-1]
     values = list(data.values())[::-1]
 
+    # Creates the population plot figure 
     plt.figure()
     plt.plot(names, values, linestyle="dotted")
 
     buf = BytesIO()
-    plt.savefig(buf, format="png", dpi=300)
+    plt.savefig(buf, format="png", dpi=300) # Saves it as a png
     image_base64 = base64.b64encode(buf.getvalue()).decode("utf-8").replace("\n", "")
     buf.close()
 
+    # Retrives the content from the database and displays it 
     all_entries = models.Content.objects.filter(country="Zimbabwe")
+
+    # Determine whether the user has access based on the decorator
+    has_access = request.user.groups.filter(name__in=["moderators", "members"]).exists()
+
     return render(
         request,
         "zimbabwe.html",
@@ -391,6 +402,7 @@ def news(request):
     return render(request, "news.html", {})
 
 
+# Weather API 
 def homepage(request):
     city = request.GET.get('city', 'Dublin') 
     url = f"http://api.weatherapi.com/v1/current.json?key=98c11e6802514f0fbdf170048242804&q={city}&aqi=no"
@@ -424,6 +436,7 @@ def homepage(request):
     return render(request, "homepage.html", {})
 
 
+# Account
 class EditProfile(UpdateView):
     form_class = EditProfileForm
     template_name = "editProfile.html"

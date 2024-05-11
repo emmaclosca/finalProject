@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-
+# Database
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     id = models.BigAutoField(primary_key=True)
@@ -53,7 +53,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.post.title} - {self.author.username}'  # Adjusted to show username from the User model
+        return f'{self.post.title} - {self.author.username}'  
     
 
 class Content(models.Model):

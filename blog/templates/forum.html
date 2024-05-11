@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
+
 <script src="https://kit.fontawesome.com/7c8801c017.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" type="text/css" href="{% static 'blog/index.css' %}">
@@ -50,6 +50,7 @@
                         <h2 class="post-title-forum">{{ post.title }}</h2>
                     </a>
                     <p class="post-meta">Posted by {{ post.author.username }} on {{ post.date|date:'F d, Y' }}</p>
+                    <!-- slice:"100" allows only 100 chars to display -->
                     <p>{{ post.content|slice:"100"|safe }}....</p>
                     </div>
                 <hr class="my-4">
